@@ -116,8 +116,6 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-bindkey '^o'  "tmux neww ./tmux-sessionizer"
-bindkey '^y' "./projectory"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -238,3 +236,18 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/node@20/bin:$PATH"
 # ~/dotfiles/shellscripts/right_side_window.sh
 # eval "$(starship init zsh)"
+
+
+# Bind a key to use the custom function
+function zle_eval {
+    echo -en "\e[2K\r"
+    eval "$@"
+    zle redisplay
+}
+
+function run_projectory {
+    zle_eval "~/dotfiles/projectory"
+}
+
+zle -N run_projectory
+bindkey '^F' run_projectory
