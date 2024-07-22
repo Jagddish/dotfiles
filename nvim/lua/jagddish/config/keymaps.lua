@@ -93,6 +93,33 @@ vim.keymap.set("", "<leader>hs", "<C-w>t<C-w>K", { noremap = true })
 -- Create a key mapping for 'x' to delete a character without storing it in any register
 vim.api.nvim_set_keymap("n", "x", '"_x', { noremap = true, silent = true, desc = "Delete Character" })
 
+vim.api.nvim_create_user_command("Js", function()
+	local filename = vim.fn.expand("%")
+	if filename == "" then
+		print("No file open")
+		return
+	end
+
+	local cmd = "!node " .. vim.fn.shellescape(filename)
+	vim.cmd(cmd)
+end, {})
+
+vim.api.nvim_create_user_command("Ts", function()
+	local filename = vim.fn.expand("%")
+	if filename == "" then
+		print("No file open")
+		return
+	end
+
+	if not filename:match("%.ts$") then
+		print("Not a TypeScript file")
+		return
+	end
+
+	local cmd = "!ts-node " .. vim.fn.shellescape(filename)
+	vim.cmd(cmd)
+end, {})
+
 wk.add({
 	{
 		"[<leader>",
