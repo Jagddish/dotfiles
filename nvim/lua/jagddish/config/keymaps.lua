@@ -2,13 +2,19 @@ local wk = require("which-key")
 -- change leader to a space
 vim.g.mapleader = " "
 
+-- Create a keymap to split tmux window, run npm run dev with zsh, and return to previous window
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>cl",
+	":silent !tmux split-window -v 'zsh -c \"npm run dev; exec zsh\"' | wincmd p<CR>",
+	{ noremap = true, silent = true }
+)
 ---------------------------------------------------------------------------
 --													Insert Mode
 ---------------------------------------------------------------------------
 
 vim.keymap.set("i", "kk", "<Esc>", { noremap = true })
-vim.keymap.set("i", "<c-c>", "<Esc>|:update<CR>", { noremap = true })
-vim.keymap.set("i", "jj", "<Esc>|:update<CR>", { noremap = true })
+vim.keymap.set("i", "jj", "<Esc>|:w<CR>", { noremap = true })
 -- insert newline below
 vim.keymap.set("i", "<C-f>", "<ESC>o", { noremap = true, silent = true })
 -- goto end of the line
@@ -86,29 +92,53 @@ vim.keymap.set("", "<leader>hs", "<C-w>t<C-w>K", { noremap = true })
 
 -- Create a key mapping for 'x' to delete a character without storing it in any register
 vim.api.nvim_set_keymap("n", "x", '"_x', { noremap = true, silent = true, desc = "Delete Character" })
-vim.keymap.set("x", "<leader>p", [["_dP]])
 
-wk.register({
-	["[<leader>"] = {
+wk.add({
+	{
+		"[<leader>",
 		function()
 			local curr_line = vim.api.nvim_win_get_cursor(0)[1]
 			local prev_line = curr_line - 1
 			vim.api.nvim_buf_set_lines(0, prev_line, prev_line, true, { "" })
 			vim.api.nvim_input("<up>")
 		end,
-		"Add line above",
+		desc = "Add line above",
 	},
-	["]<leader>"] = {
+	{
+		"]<leader>",
 		function()
 			local curr_line = vim.api.nvim_win_get_cursor(0)[1]
 			vim.api.nvim_buf_set_lines(0, curr_line, curr_line, true, { "" })
 			vim.api.nvim_input("<down>")
 		end,
-		"Add line below",
+		desc = "Add line below",
 	},
+	{ "0", "^", desc = "Go to first character of line" },
+	{ "^", "0", desc = "Go to start of line" },
+	-- { '<leader>p', 'a <esc>p', desc = 'Paste After a Space' },
 
-	["0"] = { "^", "Go to first character of line" },
-	["^"] = { "0", "Go to start of line" },
+	{
+		mode = { "i" },
+		-- works in insert mode
+		{ "<C-c>", "<esc>", desc = "Goto Normal Mode" },
+		{ "<c-s>", "<cmd>:w<cr>", desc = "Save the file" },
+		-- { '<c-v>', '<esc>pa', desc = 'Paste' },
+		-- { '<m-a>', '<esc>I', desc = '(Insert) Jump to line start' },
+		-- { '<m-e>', '<esc>A', desc = '(Insert) Jump to line end' },
+		-- { '<m-h>', '<esc>O', desc = 'Insert new line below' },
+		-- { '<m-k>', '<esc>ddi', desc = 'Delete current line' },
+		{
+			"<m-y>",
+			function()
+				local buffer = vim.api.nvim_get_current_buf()
+				local cursor = vim.api.nvim_win_get_cursor(0)
+				local curr_line = vim.api.nvim_get_current_line()
+				vim.api.nvim_buf_set_lines(buffer, cursor[1], cursor[1], true, { curr_line })
+				vim.api.nvim_win_set_cursor(0, { cursor[1] + 1, cursor[2] })
+			end,
+			desc = "Duplicate current line",
+		},
+	},
 })
 -- vim.keymap.set(
 -- 	"n",
