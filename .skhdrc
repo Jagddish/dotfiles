@@ -80,22 +80,22 @@ shift + alt - e : yabai -m space --balance
 
 
 #open finder
-alt - p  : open /System/Library/CoreServices/Finder.app
-alt - 9  : open /Applications/Obsidian.app
+ctrl - 0  : open /System/Library/CoreServices/Finder.app
+ctrl - 9  : open /Applications/VLC.app
 
 # open Browser
 alt - 1 : open /Applications/Brave\ Browser.app
-ctrl - 1 : open /Applications/Brave\ Browser.app
+# ctrl - 1 : open /Applications/Brave\ Browser.app
 # alt - 1 : open /Applications/Google\ Chrome.app  
 
 #open vscode
-ctrl - 4 : open /Applications/Visual\ Studio\ Code.app
+ctrl - 4 : open /Applications/Telegram.localized/Telegram.app
 
 # open terminal
 # alt - return : open  /Applications/iTerm.app
 # alt - 3 : open  /Applications/iTerm.app
-alt - 2 : open  /Applications/WezTerm.app
-ctrl - 2 : open  /Applications/WezTerm.app
+# alt - 2 : open  /Applications/WezTerm.app
+ctrl - 2 : open  /Applications/Firefox.app
 
 alt - 3 : open  /Applications/Alacritty.app
 ctrl - 3 : open  /Applications/Alacritty.app
@@ -105,5 +105,3 @@ ctrl - 3 : open  /Applications/Alacritty.app
 #open telegram
 # alt - t : open /Applications/Telegram.localized/Telegram.app
 
-# mail app
-alt - 0 : open /System/Applications/Mail.app

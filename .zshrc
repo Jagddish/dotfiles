@@ -1,3 +1,5 @@
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -121,6 +123,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias v='nvim'
+alias vv='nvim .'
 alias lg='lazygit'
 alias ..="cd .."
 alias e='exit'
@@ -141,6 +144,7 @@ alias cls="clear && printf '\e[3J'"
 alias cat='bat'
 alias lshf='ls -ap | grep "^\..*" | grep -v "/$"'
 alias lsf='find . -type d -depth 1'
+alias python='python3'
 
 alias key='python3 ~/codes/keyboard-layout-status/src/kbstatus/keyboard.py'
 
@@ -251,3 +255,8 @@ function run_projectory {
 
 zle -N run_projectory
 bindkey '^F' run_projectory
+
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+
+# skhd --start-service

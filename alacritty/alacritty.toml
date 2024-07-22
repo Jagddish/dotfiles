@@ -22,6 +22,6 @@ family = "FiraCode Nerd Font"
   position = { x = 749, y = 301 }
 [window.dimensions]
   columns = 69
-  lines = 42
+  lines = 43
 # startup_mode = "Maximized"
 
