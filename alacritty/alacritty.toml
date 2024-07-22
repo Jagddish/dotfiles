@@ -8,7 +8,7 @@ import = ["~/.config/alacritty/dracula.toml"]
 TERM = "xterm-256color"
 
 [font]
-size = 17
+size = 15
 
 [font.normal]
 family = "FiraCode Nerd Font"

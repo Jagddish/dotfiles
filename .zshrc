@@ -145,6 +145,7 @@ alias cat='bat'
 alias lshf='ls -ap | grep "^\..*" | grep -v "/$"'
 alias lsf='find . -type d -depth 1'
 alias python='python3'
+alias ts='ts-node'
 
 alias key='python3 ~/codes/keyboard-layout-status/src/kbstatus/keyboard.py'
 

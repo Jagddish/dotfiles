@@ -98,6 +98,10 @@ return {
 							preview_cutoff = 120,
 						},
 					},
+					diagnostics = {
+						-- Configuration for diagnostics picker
+						wrap_results = true, -- Enable text wrap
+					},
 					git_files = {
 						previewer = false,
 						path_display = formattedName,
