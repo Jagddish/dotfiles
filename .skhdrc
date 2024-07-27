@@ -85,7 +85,7 @@ ctrl - 9  : open /Applications/VLC.app
 
 # open Browser
 alt - 1 : open /Applications/Brave\ Browser.app
-# ctrl - 1 : open /Applications/Brave\ Browser.app
+ctrl - 2 : open /Applications/Brave\ Browser.app
 # alt - 1 : open /Applications/Google\ Chrome.app  
 
 #open vscode
@@ -95,7 +95,7 @@ ctrl - 4 : open /Applications/Telegram.localized/Telegram.app
 # alt - return : open  /Applications/iTerm.app
 # alt - 3 : open  /Applications/iTerm.app
 # alt - 2 : open  /Applications/WezTerm.app
-ctrl - 2 : open  /Applications/Firefox.app
+ctrl - 1 : open  /Applications/Firefox.app
 
 alt - 3 : open  /Applications/Alacritty.app
 ctrl - 3 : open  /Applications/Alacritty.app
