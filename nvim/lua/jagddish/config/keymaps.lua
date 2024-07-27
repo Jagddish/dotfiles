@@ -29,8 +29,8 @@ vim.keymap.set("n", "<C-q>", ":q!<CR>", { silent = true, noremap = true })
 
 --  buffer
 vim.keymap.set("n", "<leader>q", ":bd<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>j", ":bprev<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>l", ":bnext<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>j", ":bprev<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>l", ":bnext<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>w", "<cmd>bp|bd #<CR>", { desc = "Close Buffer; Retain Split" })
 vim.keymap.set(
 	"n",
@@ -42,6 +42,10 @@ vim.keymap.set(
 -- select all
 vim.keymap.set("n", "==", "gg<S-v>G")
 
+-- paste over currently selected text without yanking it
+vim.keymap.set("v", "p", '"_dp')
+vim.keymap.set("v", "P", '"_dP')
+
 -- add empty line
 vim.api.nvim_set_keymap("n", "<C-w>", "o<Esc>", { noremap = true, silent = true })
 
@@ -50,10 +54,10 @@ vim.keymap.set("n", "<c-c>", "<cmd>nohlsearch<CR>", { noremap = true, silent = t
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { noremap = true, silent = true })
 
 -- navigate splits in vim
-vim.keymap.set("n", "sh", "<C-w>h")
-vim.keymap.set("n", "sk", "<C-w>k")
-vim.keymap.set("n", "sj", "<C-w>j")
-vim.keymap.set("n", "sl", "<C-w>l")
+-- vim.keymap.set("n", "sh", "<C-w>h")
+-- vim.keymap.set("n", "sk", "<C-w>k")
+-- vim.keymap.set("n", "sj", "<C-w>j")
+-- vim.keymap.set("n", "sl", "<C-w>l")
 --Lazygit
 vim.keymap.set("n", "<c-e>", "<cmd>LazyGit<CR>", { noremap = true, silent = true })
 
@@ -142,6 +146,8 @@ wk.add({
 	},
 	{ "0", "^", desc = "Go to first character of line" },
 	{ "^", "0", desc = "Go to start of line" },
+	{ "<C-n>", ":bnext<cr>", desc = "Goto next Tab" },
+	{ "<C-b>", ":bprev<cr>", desc = "Goto previous Tab" },
 	-- { '<leader>p', 'a <esc>p', desc = 'Paste After a Space' },
 
 	{

@@ -16,6 +16,10 @@ require("lazy").setup({ { import = "jagddish.plugins" }, { import = "jagddish.pl
 		enabled = true,
 		notify = false,
 	},
+	install = {
+		missing = true,
+		colorscheme = { "rose-pine-moon", "habamax" },
+	},
 	change_detection = {
 		notify = false,
 	},

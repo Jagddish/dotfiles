@@ -1,6 +1,7 @@
 return {
 	{
 		"echasnovski/mini.ai",
+		enabled = false,
 		version = "*",
 		config = function()
 			require("mini.ai").setup({})
@@ -9,6 +10,7 @@ return {
 	{
 		"ray-x/lsp_signature.nvim",
 		opts = {},
+		-- enabled = false,
 		config = function()
 			require("lsp_signature").setup({
 				bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -16,6 +18,7 @@ return {
 					border = "rounded", -- rounded, single, shadow, none, double
 				},
 				padding = " ",
+				floating_window = false,
 			})
 		end,
 	},

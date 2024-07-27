@@ -1,3 +1,4 @@
+; extends
 (object
   (pair
     key: (_) @property.lhs

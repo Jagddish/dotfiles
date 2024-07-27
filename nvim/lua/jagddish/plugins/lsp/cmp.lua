@@ -8,6 +8,7 @@ return {
 			"onsails/lspkind.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
+			"neovim/nvim-lspconfig",
 			-- "hrsh7th/cmp-nvim-lsp-signature-help",
 			"hrsh7th/cmp-buffer",
 			{
@@ -28,14 +29,13 @@ return {
 
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-
-			require("luasnip.loaders.from_vscode").lazy_load()
+			luasnip.filetype_extend("html", { "javascript" })
 			luasnip.filetype_extend("typescript", { "javascript" })
-
+			require("luasnip.loaders.from_vscode").lazy_load()
 			cmp.setup({
 				sources = {
-					{ name = "luasnip" },
 					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "mini.completion" },
 					{ name = "cody" },
@@ -60,14 +60,32 @@ return {
 						vim.snippet.expand(args.body)
 					end,
 				},
+				-- formatting = {
+				-- 	-- Youtube: How to set up nice formatting for your sources.
+				-- 	format = lspkind.cmp_format({
+				-- 		mode = "symbol_text",
+				-- 		-- TODO: Think about this, except it's not centered :'(
+				-- 		-- symbol_map = {
+				-- 		--   Cody = "",
+				-- 		-- },
+				-- 		menu = {
+				-- 			buffer = "[buf]",
+				-- 			nvim_lsp = "[LSP]",
+				-- 			nvim_lua = "[api]",
+				-- 			path = "[path]",
+				-- 			luasnip = "[snip]",
+				-- 			gh_issues = "[issues]",
+				-- 			tn = "[TabNine]",
+				-- 			eruby = "[erb]",
+				-- 		},
+				-- 	}),
+				-- },
 				formatting = {
-					-- Youtube: How to set up nice formatting for your sources.
+					fields = { "kind", "abbr", "menu" },
 					format = lspkind.cmp_format({
 						mode = "symbol_text",
-						-- TODO: Think about this, except it's not centered :'(
-						-- symbol_map = {
-						--   Cody = "",
-						-- },
+						maxwidth = 50,
+						ellipsis_char = "...",
 						menu = {
 							buffer = "[buf]",
 							nvim_lsp = "[LSP]",
@@ -80,6 +98,18 @@ return {
 						},
 					}),
 				},
+				-- cmp.setup.cmdline(":", {
+				-- 	mapping = cmp.mapping.preset.cmdline(),
+				-- 	sources = {
+				-- 		{ name = "cmdline" },
+				-- 	},
+				-- }),
+				-- cmp.setup.cmdline("/", {
+				-- 	mapping = cmp.mapping.preset.cmdline(),
+				-- 	sources = {
+				-- 		{ name = "buffer" },
+				-- 	},
+				-- }),
 			})
 		end,
 	},

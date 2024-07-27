@@ -1,9 +1,13 @@
 return {
-  {
-    "tpope/vim-sleuth",
-  },
+	{
+		"tpope/vim-sleuth",
+	},
 
-  {
-    "christoomey/vim-tmux-navigator",
-  },
+	{
+		"christoomey/vim-tmux-navigator",
+	},
+	{
+		"stevearc/dressing.nvim",
+		event = "VeryLazy",
+	},
 }
