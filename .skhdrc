@@ -21,10 +21,10 @@ alt + shift - l : yabai -m window --swap east || $(yabai -m window --display eas
 # alt + shift - right : yabai -m window --swap east || $(yabai -m window --display east; yabai -m display --focus east)
 
 # set insertion point in focused container
-alt + ctrl - h : yabai -m window --insert west
-alt + ctrl - j : yabai -m window --insert south
-alt + ctrl - k : yabai -m window --insert north
-alt + ctrl - l : yabai -m window --insert east
+# alt + ctrl - h : yabai -m window --insert west
+# alt + ctrl - j : yabai -m window --insert south
+# alt + ctrl - k : yabai -m window --insert north
+# alt + ctrl - l : yabai -m window --insert east
 # (alt) set insertion point in focused container using arrows
 # alt + ctrl - left  : yabai -m window --insert west
 # alt + ctrl - down  : yabai -m window --insert south
@@ -84,8 +84,8 @@ ctrl - 0  : open /System/Library/CoreServices/Finder.app
 ctrl - 9  : open /Applications/VLC.app
 
 # open Browser
-alt - 1 : open /Applications/Brave\ Browser.app
-ctrl - 2 : open /Applications/Brave\ Browser.app
+# alt - 1 : open /Applications/Brave\ Browser.app
+# ctrl - 1 : open /Applications/Brave\ Browser.app
 # alt - 1 : open /Applications/Google\ Chrome.app  
 
 #open vscode
@@ -96,6 +96,7 @@ ctrl - 4 : open /Applications/Telegram.localized/Telegram.app
 # alt - 3 : open  /Applications/iTerm.app
 # alt - 2 : open  /Applications/WezTerm.app
 ctrl - 1 : open  /Applications/Firefox.app
+ctrl - 2 : open /Applications/Google\ Chrome.app/
 
 alt - 3 : open  /Applications/Alacritty.app
 ctrl - 3 : open  /Applications/Alacritty.app
