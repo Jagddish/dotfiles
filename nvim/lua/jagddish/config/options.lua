@@ -1,8 +1,11 @@
 -- leader
+vim.cmd([[ highlight Pmenu guibg=#000 ]])
 vim.g.mapleader = " " -- change leader to a space
+-- Set syntastic_auto_jump to 0
+vim.g.syntastic_auto_jump = 0
 vim.g.loaded_netrw = 1 -- disable netrw
 vim.g.loaded_netrwPlugin = 1 --  disable netrw
-
+vim.g.colorcolumn = 80
 vim.opt.number = true -- set numbered lines
 vim.opt.relativenumber = true -- set relative numbered lines
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation

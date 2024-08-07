@@ -2,19 +2,20 @@ local wk = require("which-key")
 -- change leader to a space
 vim.g.mapleader = " "
 
--- Create a keymap to split tmux window, run npm run dev with zsh, and return to previous window
 vim.api.nvim_set_keymap(
 	"n",
 	"<leader>cl",
-	":silent !tmux split-window -v 'zsh -c \"npm run dev; exec zsh\"' | wincmd p<CR>",
+	[[:lua require('jagddish.utils.react').run_in_new_window()<CR>]],
 	{ noremap = true, silent = true }
 )
 ---------------------------------------------------------------------------
 --													Insert Mode
 ---------------------------------------------------------------------------
 
+vim.api.nvim_set_keymap("n", "<leader>i", '$F"i', { noremap = true, silent = true })
 vim.keymap.set("i", "kk", "<Esc>", { noremap = true })
-vim.keymap.set("i", "jj", "<Esc>|:w<CR>", { noremap = true })
+vim.keymap.set("i", "jj", "<Esc>:w<CR>", { noremap = true })
+-- vim.api.nvim_set_keymap("i", "jj", "<Cmd>w<CR><Esc>`^", { noremap = true, silent = true })
 -- insert newline below
 vim.keymap.set("i", "<C-f>", "<ESC>o", { noremap = true, silent = true })
 -- goto end of the line
@@ -23,11 +24,15 @@ vim.keymap.set("i", "<C-e>", "<ESC>A", { noremap = true, silent = true })
 ---------------------------------------------------------------------------
 --													Normal Mode
 ---------------------------------------------------------------------------
+vim.keymap.set("n", "p", ":put<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>p", "p", { noremap = true })
 vim.keymap.set("n", "<leader><cr>", ":update<CR>", { noremap = true })
 vim.keymap.set("n", "<C-q>", ":q!<CR>", { silent = true, noremap = true })
 -- vim.keymap.set("n", "<c-m>", ":!node %<CR>", { silent = true, noremap = true })
 
 --  buffer
+vim.keymap.set("n", "te", ":tabedit")
+vim.keymap.set("n", "<tab>", ":tabnext<Return>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<leader>j", ":bprev<CR>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<leader>l", ":bnext<CR>", { noremap = true, silent = true })
