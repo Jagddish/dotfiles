@@ -24,12 +24,18 @@ return {
 					t("const "),
 					i(1),
 					t(" = () => {"),
-					t({ "", "  return (" }),
+					t({ "", "  return (<>" }),
 					t({ "", "    " }),
 					i(2),
-					t({ "", "  );", "};", "", "export default " }),
+					t({ "", "  </>);", "};", "", "export default " }),
 					rep(1),
 					t(";"),
+				}),
+				s("cc", {
+					t("const "),
+					i(1, "name"), -- Default text "name" for the first placeholder
+					t(" = "),
+					i(2, ""), -- Default text "value" for the second placeholder
 				}),
 			},
 		})

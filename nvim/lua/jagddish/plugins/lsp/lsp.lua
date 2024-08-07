@@ -114,8 +114,25 @@ return {
 				map("<leader>P", require("telescope.builtin").lsp_workspace_symbols, "Workspace Symbols")
 				map("<leader>Ps", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace Symbols")
 
+				-- Custom handler for hover window
+				vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+					-- Set the border to a single line
+					border = "single",
+
+					-- Set maximum width and height
+					max_width = 80,
+					max_height = 30,
+
+					-- Customize width and height of the window
+					width = 60,
+					height = 8,
+				})
+
+				-- Map "K" to the hover documentation function
+				vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true })
+
 				map("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
-				map("K", vim.lsp.buf.hover, "Hover Documentation")
+				-- map("K", vim.lsp.buf.hover, "Hover Documentation")
 				map("gs", vim.lsp.buf.signature_help, "Signature Documentation")
 				map("gD", vim.lsp.buf.declaration, "Goto Declaration")
 
