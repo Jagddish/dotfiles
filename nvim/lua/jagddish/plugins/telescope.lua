@@ -30,7 +30,7 @@ return {
 			vim.keymap.set(
 				"n",
 				"<leader>;",
-				":lua require('telescope.builtin').find_files({cwd = '~/.config/nvim/'})<CR>",
+				":lua require('telescope.builtin').find_files({cwd = '~/dotfiles/nvim/'})<CR>",
 				{ noremap = true, silent = true }
 			)
 

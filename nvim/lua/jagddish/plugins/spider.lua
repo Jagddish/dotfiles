@@ -12,6 +12,7 @@ end
 
 return {
 	"chrisgrieser/nvim-spider",
+	enabled = false,
 	-- keys = {
 	-- 	motion("w"),
 	-- 	motion("l", "e"),

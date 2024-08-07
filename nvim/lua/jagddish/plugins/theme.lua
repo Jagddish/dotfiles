@@ -1,7 +1,7 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		priority = 1000,
+		-- priority = 1000,
 		config = function()
 			local transparent = false -- set to true if you would like to enable transparency
 
@@ -45,13 +45,22 @@ return {
 		end,
 	},
 	{
-		"rose-pine/neovim",
+		"rebelot/kanagawa.nvim",
 		enabled = true,
-		priority = 1000,
 		config = function()
-			vim.cmd([[colorscheme rose-pine-moon]])
+			-- vim.cmd("colorscheme kanagawa-wave")
+			-- vim.cmd("colorscheme kanagawa-dragon")
+			-- vim.cmd("colorscheme kanagawa-lotus")
 		end,
 	},
+	{
+		"ellisonleao/gruvbox.nvim",
+		priority = 1000,
+		config = function()
+			-- vim.cmd([[colorscheme gruvbox]])
+		end,
+	},
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 	{
 		"Mofiqul/dracula.nvim",
 		enabled = true,
@@ -62,6 +71,14 @@ return {
 	},
 	{
 		"olimorris/onedarkpro.nvim",
+		enabled = true,
+		priority = 1000,
+		config = function()
+			-- vim.cmd([[colorscheme onedark]])
+		end,
+	},
+	{
+		"catppuccin/nvim",
 		enabled = true,
 		priority = 1000,
 		config = function()
@@ -150,6 +167,7 @@ return {
 				}, -- table: additional groups that should be cleared
 				exclude_groups = {
 					"CursorLine",
+					"PMenu",
 				}, -- table: groups you don't want to clear
 			})
 			-- require("transparent").clear_prefix("lualine")
@@ -160,7 +178,11 @@ return {
 		"NvChad/nvim-colorizer.lua",
 		enabled = true,
 		config = function()
-			require("colorizer").setup({})
+			require("colorizer").setup({
+				user_default_options = {
+					tailwind = true,
+				},
+			})
 		end,
 	},
 }

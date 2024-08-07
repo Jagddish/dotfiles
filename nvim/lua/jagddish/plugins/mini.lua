@@ -1,7 +1,8 @@
 return {
 	{
 		"echasnovski/mini.ai",
-		enabled = false,
+		-- "echasnovski/mini.surround",
+		enabled = true,
 		version = "*",
 		config = function()
 			require("mini.ai").setup({})
