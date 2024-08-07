@@ -16,9 +16,9 @@ family = "FiraCode Nerd Font"
 [window]
  
   option_as_alt = "Both"
-  opacity = 0.70
+  opacity = 0.85
   decorations = "none"
-  blur = true
+  blur = false
   position = { x = 749, y = 301 }
 [window.dimensions]
   columns = 69
