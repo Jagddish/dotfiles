@@ -16,6 +16,10 @@ return {
 			todo_comments.jump_prev()
 		end, { desc = "Previous todo comment" })
 
-		todo_comments.setup()
+		todo_comments.setup({
+			keywords = {
+				NOTE = { icon = "󱜾", color = "hint", alt = { "INFO" } },
+			},
+		})
 	end,
 }
