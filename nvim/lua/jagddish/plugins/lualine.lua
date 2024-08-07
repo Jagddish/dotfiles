@@ -1,3 +1,22 @@
+local function current_date()
+	return os.date("%a %d") -- Format: abbreviated weekday name and day of the month
+end
+-- Define custom function to show the current directory with an icon and color
+local function show_directory()
+	local icon = "" -- Directory icon
+
+	-- Get the current working directory and extract the directory name
+	local cwd = vim.fn.getcwd()
+	local dir_name = vim.fn.fnamemodify(cwd, ":t")
+
+	-- Format the output
+	local dir = string.format("%s %s", icon, dir_name)
+
+	return dir
+end
+local function current_time()
+	return os.date("%I:%M%p "):upper() -- 12-hour format with AM/PM
+end
 return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -185,11 +204,13 @@ return {
 						"macro-recording",
 						fmt = show_macro_recording,
 					},
+					{ show_directory, color = { fg = "#f2f5fa" } },
 				},
 				lualine_c = {
 					spaces,
 					branch,
 					diff,
+
 					-- require("auto-session.lib").current_session_name,
 				},
 				lualine_x = {
@@ -209,7 +230,13 @@ return {
 					location,
 				},
 				lualine_y = {},
-				lualine_z = {},
+				lualine_z = {
+					{
+						current_date,
+						color = { fg = "#f2f5fa" }, -- Set custom foreground color for date
+					},
+					{ current_time, color = { fg = "#f2f5fa" } },
+				},
 			},
 		})
 	end,
