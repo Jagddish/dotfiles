@@ -32,7 +32,7 @@ vim.keymap.set("n", "<C-q>", ":q!<CR>", { silent = true, noremap = true })
 
 --  buffer
 vim.keymap.set("n", "te", ":tabedit")
-vim.keymap.set("n", "<tab>", ":tabnext<Return>")
+vim.keymap.set("n", "<tab>", ":bnext<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<leader>j", ":bprev<CR>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<leader>l", ":bnext<CR>", { noremap = true, silent = true })
