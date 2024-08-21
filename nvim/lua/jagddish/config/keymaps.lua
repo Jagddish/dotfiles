@@ -30,6 +30,9 @@ vim.keymap.set("n", "<leader><cr>", ":update<CR>", { noremap = true })
 vim.keymap.set("n", "<C-q>", ":q!<CR>", { silent = true, noremap = true })
 -- vim.keymap.set("n", "<c-m>", ":!node %<CR>", { silent = true, noremap = true })
 
+---------- copying to system clipboard --------
+vim.keymap.set("v", "<leader>y", '"+y', { noremap = true, silent = true })
+
 --  buffer
 vim.keymap.set("n", "te", ":tabedit")
 vim.keymap.set("n", "<tab>", ":bnext<CR>")

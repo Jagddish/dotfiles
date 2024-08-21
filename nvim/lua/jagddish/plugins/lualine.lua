@@ -82,7 +82,7 @@ return {
 		}
 
 		local location = {
-			"location",
+			-- "location",
 			-- separator = { right = "" },
 		}
 

@@ -9,8 +9,8 @@
 
 [colors.primary]
 
-background = "#23272f" #github
-# background = "#151b23" #github
+# background = "#23272f" #github-dark
+background = "#1E1E1E" #custome
 # background = "#282a36"
 foreground = "#f8f8f2"
 bright_foreground = "#ffffff"

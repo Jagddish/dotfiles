@@ -31,7 +31,7 @@ vim.opt.swapfile = false -- creates a swapfile
 vim.opt.splitbelow = true -- force all horizontal splits to go below current window
 vim.opt.splitright = true -- force all vertical splits to go to the right of current window
 vim.opt.backup = false -- creates a backup file
-vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
+-- vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 -- vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- mostly just for cmp
 -- vim.opt.fileencoding = "utf-8" -- the encoding written to a file

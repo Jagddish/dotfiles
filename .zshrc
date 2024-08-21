@@ -1,11 +1,9 @@
-# Amazon Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 bindkey '^l' backward-char
 
@@ -87,13 +85,14 @@ plugins=(
     # tmux
     git
     sudo
-    python
     zsh-autosuggestions
     # zsh-syntax-highlighting
     F-Sy-H
-    zsh-completions   # zsh-autocomplete
-    ) 
-fpath=($ZSH/custom/plugins/zsh-completions/src $fpath)
+    colored-man-pages
+    gh
+    zsh-interactive-cd
+    zsh-autocomplete
+    )
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -144,8 +143,10 @@ alias cls="clear && printf '\e[3J'"
 alias cat='bat'
 alias lshf='ls -ap | grep "^\..*" | grep -v "/$"'
 alias lsf='find . -type d -depth 1'
+alias tailw='npm install -D tailwindcss postcss autoprefixer;npx tailwindcss init -p'
 alias python='python3'
 alias ts='ts-node'
+alias jv='v ~/codes/web/js/practice'
 
 alias key='python3 ~/codes/keyboard-layout-status/src/kbstatus/keyboard.py'
 
@@ -215,8 +216,10 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
   fd --type=d --hidden --exclude .git . "$1"
 }
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
-source ~/fzf-git.sh/fzf-git.sh
+# source ~/fzf-git.sh/fzf-git.sh
 # export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}' --bind 'enter:execute(nvim {})'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
@@ -235,7 +238,7 @@ _fzf_comprun() {
     *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
   esac
 }
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
 eval "$(zoxide init zsh)"
 export PATH="/usr/local/sbin:$PATH"
 # last line
@@ -258,5 +261,4 @@ function run_projectory {
 zle -N run_projectory
 bindkey '^F' run_projectory
 
-
-# skhd --start-service
+eval "$(starship init zsh)"
