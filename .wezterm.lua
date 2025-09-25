@@ -34,7 +34,7 @@ config = {
 	enable_tab_bar = false,
 	-- default_prog = { "/usr/local/bin/tmux", "new-session" },
 
-	-- window_decorations = "RESIZE",
+	window_decorations = "RESIZE",
 	window_close_confirmation = "NeverPrompt",
 	-- default_cursor_style = "SteadyBar",
 	-- default_cursor_style = "SteadyUnderline",
@@ -43,9 +43,9 @@ config = {
 
 
 	-- Start fullscreen on launch
-	-- wezterm.on("gui-startup", function(cmd)
-	-- 	local _, _, window = wezterm.mux.spawn_window(cmd or {})
-	-- 	window:gui_window():toggle_fullscreen()
-	-- end)
+	wezterm.on("gui-startup", function(cmd)
+		local _, _, window = wezterm.mux.spawn_window(cmd or {})
+		window:gui_window():toggle_fullscreen()
+	end)
 }
 return config

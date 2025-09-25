@@ -1,12 +1,3 @@
--- ===============================
--- Neovim LSP + Mason + cmp_nvim_lsp + LuaSnip Setup
--- ===============================
-
-local root_files = {
-  '.luarc.json', '.luarc.jsonc', '.luacheckrc',
-  '.stylua.toml', 'stylua.toml', 'selene.toml',
-  'selene.yml', '.git',
-}
 
 return {
   "neovim/nvim-lspconfig",
@@ -15,22 +6,11 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-
     -- LSP completion
     "hrsh7th/cmp-nvim-lsp", -- only used for capabilities
-
-    -- "hrsh7th/nvim-cmp",
-    -- "hrsh7th/cmp-buffer",
-    -- "hrsh7th/cmp-path",
-    -- "hrsh7th/cmp-cmdline",
-    -- "saadparwaiz1/cmp_luasnip",
-    
-    -- "onsails/lspkind.nvim",
-
     -- Diagnostics / formatting
     "stevearc/conform.nvim",
     "j-hui/fidget.nvim",
-
     -- Utility
     "nvim-lua/plenary.nvim",
   },
@@ -111,12 +91,37 @@ return {
     require("mason").setup({
       ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } },
     })
+    require('mason-tool-installer').setup {
+
+  -- a list of all tools you want to ensure are installed upon
+  -- start
+  ensure_installed = {
+
+    "clangd",
+    "clang-format",
+    
+  },
+
+  -- if set to true this will check each tool for updates. If updates
+  -- are available the tool will be updated. This setting does not
+  -- affect :MasonToolsUpdate or :MasonToolsInstall.
+  -- Default: false
+  auto_update = false,
+  run_on_start = true,
+  integrations = {
+    ['mason-lspconfig'] = true,
+    ['mason-null-ls'] = true,
+    ['mason-nvim-dap'] = true,
+  },
+}
 
     local mason_lspconfig = require("mason-lspconfig")
     mason_lspconfig.setup({
       ensure_installed = {
         "lua_ls", "tailwindcss", "clangd", "eslint", "html",
-        "ts_ls", "cssls", "emmet_language_server", "pyright"
+        "ts_ls", "cssls", "emmet_language_server", "pyright",
+        
+       
       },
       handlers = {
         -- Default handler for all other servers
