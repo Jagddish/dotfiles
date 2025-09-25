@@ -1,8 +1,8 @@
 vim.g.mapleader = " "
 
-require("jagddish.config.lazy")
--- require("jagddish.config.colemak")
-require("jagddish.config.options")
-require("jagddish.config.keymaps")
-require("jagddish.config.autocmd")
-require("jagddish.utils.react")
+require("config.lazy")
+-- require("config.colemak")
+require("config.options")
+require("config.keymaps")
+require("config.autocmd")
+-- require("utils.react")

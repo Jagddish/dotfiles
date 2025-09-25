@@ -6,10 +6,10 @@ $git_commit\
 $git_state\
 $git_metrics\
 $git_status\
+$nodejs\
 $fill\
 $python\
 $lua\
-$nodejs\
 $golang\
 $haskell\
 $rust\
@@ -192,7 +192,7 @@ style = 'yellow'
 
 [time]
 use_12hr = true
-time_format = "%R%p"
+time_format = "%I:%M%p"
 format = "$time($style)  "
 style = "bright-white"
 disabled = false

@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# List existing tmux sessions
+existing_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
+
+# Combine directories and existing tmux sessions into one list for fzf
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    # Find directories and append existing tmux sessions
+    options=$(find ~/dotfiles ~/codes ~/Documents/codes/web/react -mindepth 1 -maxdepth 1 -type d)
+    
+    # Check if there are existing sessions and add them to the options
+    if [[ -n $existing_sessions ]]; then
+        options=$(echo -e "$existing_sessions\n$options")
+    fi
+
+    # Use fzf to select from both directories and tmux sessions
+    selected=$(echo "$options" | fzf)
+fi
+
+# Exit if no selection is made
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+# Check if the selection is an existing tmux session
+if echo "$existing_sessions" | grep -qx "$selected"; then
+    # If it's an existing session, switch to it
+    if [[ -n $TMUX ]]; then
+        tmux switch-client -t "$selected"
+    else
+        tmux attach-session -t "$selected"
+    fi
+    exit 0
+fi
+
+# Otherwise, it's a directory, so we handle it like before
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+# Check if tmux is running and create or attach to a session
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    # Start a new tmux session if none are running
+    tmux new-session -s "$selected_name" -c "$selected"
+    exit 0
+fi
+
+# Check if the session already exists
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+# Attach to the session if not already attached
+if [[ -n $TMUX ]]; then
+    tmux switch-client -t "$selected_name"
+else
+    tmux attach-session -t "$selected_name"
+fi
+

@@ -126,6 +126,14 @@ alias vv='nvim .'
 alias lg='lazygit'
 alias ..="cd .."
 alias e='exit'
+alias q='exit' 
+# TMUX 
+alias d='tmux detach'
+alias t='tmux'
+alias ta='tmux a'
+alias tat='tmux a -t'
+alias tn='tmux new -s "$(basename "$(pwd)")"'
+
 alias c='clear'
 alias cpp='cd ~/codes/cpp'
 alias js='cd ~/codes/web/js/'
@@ -137,19 +145,18 @@ alias pr='~/./projectory'
 alias r='cd ~/codes/web/react/'
 alias create='webapp.zsh'
 alias rmd='rm -rf'
-alias q='exit' 
-alias t='tmux'
 alias cls="clear && printf '\e[3J'"
+alias ff='scrcpy -s 6cedc287'  
 alias cat='bat'
 alias lshf='ls -ap | grep "^\..*" | grep -v "/$"'
 alias lsf='find . -type d -depth 1'
 alias tailw='npm install -D tailwindcss postcss autoprefixer;npx tailwindcss init -p'
-alias python='python3'
 alias ts='ts-node'
 alias jv='v ~/codes/web/js/practice'
 
-alias key='python3 ~/codes/keyboard-layout-status/src/kbstatus/keyboard.py'
 
+alias key='python3 ~/codes/keyboard-layout-status/src/kbstatus/keyboard.py'
+source ~/.zsh_git
 
 # bun completions
 [ -s "/Users/jagddish/.bun/_bun" ] && source "/Users/jagddish/.bun/_bun"
@@ -219,7 +226,7 @@ _fzf_compgen_dir() {
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-# source ~/fzf-git.sh/fzf-git.sh
+source ~/.fzf-git.sh/fzf-git.sh
 # export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}' --bind 'enter:execute(nvim {})'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
@@ -243,22 +250,25 @@ eval "$(zoxide init zsh)"
 export PATH="/usr/local/sbin:$PATH"
 # last line
 export PATH="/usr/local/opt/node@20/bin:$PATH"
-# ~/dotfiles/shellscripts/right_side_window.sh
 # eval "$(starship init zsh)"
 
 
-# Bind a key to use the custom function
-function zle_eval {
-    echo -en "\e[2K\r"
-    eval "$@"
-    zle redisplay
-}
+# # Bind a key to use the custom function
+# function zle_eval {
+#     echo -en "\e[2K\r"
+#     eval "$@"
+#     zle redisplay
+# }
+#
+# function run_projectory {
+#     zle_eval "cd ~ && ~/tmux-sessionizer"
+# }
+#
+# zle -N run_projectory
+# bindkey '^F' run_projectory
+# Function to execute a bash file
+bindkey -s ^f "~/dotfiles/./tmux-sessionizer\n"
 
-function run_projectory {
-    zle_eval "~/dotfiles/projectory"
-}
-
-zle -N run_projectory
-bindkey '^F' run_projectory
 
 eval "$(starship init zsh)"
+. "/Users/jagddish/.deno/env"

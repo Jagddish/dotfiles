@@ -1,35 +1,29 @@
 # Place a copy of this config to ~/.aerospace.toml
 # After that, you can edit ~/.aerospace.toml to your liking
 
-# Possible values: tiles|accordion
-default-root-container-layout = 'accordion'
-
 # It's not necessary to copy all keys to your config.
 # If the key is missing in your config, "default-config.toml" will serve as a fallback
 
 # You can use it to add commands that run after login to macOS user session.
 # 'start-at-login' needs to be 'true' for 'after-login-command' to work
 # Available commands: https://nikitabobko.github.io/AeroSpace/commands
-after-login-command = []
+after-login-command = ['layout accordion']
 
 # You can use it to add commands that run after AeroSpace startup.
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
+after-startup-command = ['layout accordion']
 
 # Start AeroSpace at login
 start-at-login = true
 
 
-# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
-enable-normalization-flatten-containers = false
-enable-normalization-opposite-orientation-for-nested-containers = true
-
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
 accordion-padding = 0
-
+# Possible values: tiles|accordion
+default-root-container-layout = 'accordion'
 
 # Possible values: horizontal|vertical|auto
 # 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
@@ -39,20 +33,6 @@ default-root-container-orientation = 'auto'
 # Possible values: (qwerty|dvorak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 key-mapping.preset = 'qwerty'
-
-# Mouse follows focus when focused monitor changes
-# Drop it from your config, if you don't like this behavior
-# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
-# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
-
-# Gaps between windows (inner-*) and between monitor edges (outer-*).
-# Possible values:
-# - Constant:     gaps.outer.top = 8
-# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
-#                 In this example, 24 is a default value when there is no match.
-#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
-#                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
 inner.horizontal = 0
 inner.vertical =   0
@@ -88,7 +68,7 @@ outer.right =      0
 ctrl-1 ='exec-and-forget open /System/Library/CoreServices/Finder.app'
 # ctrl-3 = 'exec-and-forget open /Applications/Alacritty.app'
 ctrl-3 = 'exec-and-forget open /Applications/WezTerm.app/'
-# ctrl-4 = 'exec-and-forget open /Applications/WhatsApp.app/'
+ctrl-4 = 'exec-and-forget open /Applications/WhatsApp.app/'
 # ctrl-2 = 'exec-and-forget open /Applications/Google\ Chrome.app'
 ctrl-2 = 'exec-and-forget open /Applications/Arc.app/'
 cmd-h = [] # Disable "hide application"
@@ -181,48 +161,30 @@ alt-shift-9 = 'move-node-to-workspace 9'
 # alt-shift-z = 'move-node-to-workspace Z'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-alt-tab = 'workspace-back-and-forth'
+# alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+# alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-shift-semicolon = 'mode service'
-
-# 'service' binding mode declaration.
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
-[mode.service.binding]
-esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
-#s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+# alt-shift-semicolon = 'mode service'
+#
+# # 'service' binding mode declaration.
+# # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+# [mode.service.binding]
+# esc = ['reload-config', 'mode main']
+# r = ['flatten-workspace-tree', 'mode main'] # reset layout
+# #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
+# f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 # backspace = ['close-all-windows-but-current', 'mode main']
 
-alt-shift-h = ['join-with left', 'mode main']
-alt-shift-j = ['join-with down', 'mode main']
-alt-shift-k = ['join-with up', 'mode main']
-alt-shift-l = ['join-with right', 'mode main']
+# alt-shift-h = ['join-with left', 'mode main']
+# alt-shift-j = ['join-with down', 'mode main']
+# alt-shift-k = ['join-with up', 'mode main']
+# alt-shift-l = ['join-with right', 'mode main']
 
 # [[on-window-detected]]
 # if.app-id = 'org.alacritty'
 # run = 'move-node-to-workspace 3'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.TextEdi'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.Preview'
-run = 'layout floating'
-[[on-window-detected]]
-if.app-id = 'cx.c3.theunarchiver'
-run = 'layout floating'
-[[on-window-detected]]
-if.app-id = 'com.macpaw.CleanMyMac4'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.bloombuilt.dayone-mac'
-run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.github.wez.wezterm'
@@ -230,24 +192,15 @@ run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
-run = 'move-node-to-workspace 2'
+run = 'move-node-to-workspace 2' # mnemonics W - Web browser
 
 [[on-window-detected]]
 if.app-id = 'company.thebrowser.Browser'
-run = 'move-node-to-workspace 2'
+run = 'move-node-to-workspace 2' # mnemonics W - Web browser
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
-run =['layout floating', 'move-node-to-workspace 1']
-
+run = 'move-node-to-workspace 1' # mnemonics W - Web browser
 [[on-window-detected]]
 if.app-id = 'net.whatsapp.WhatsApp'
-run = 'move-node-to-workspace 4'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.Music'
-run = ['move-node-to-workspace 1']
-[[on-window-detected]]
-if.app-id = 'NULL-APP-BUNDLE-ID'
-run = ['move-node-to-workspace 1']
-
+run = 'move-node-to-workspace 1' # mnemonics W - Web browser
