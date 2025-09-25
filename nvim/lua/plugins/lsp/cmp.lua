@@ -85,6 +85,14 @@ return {
           end
         end,
       },
+
+      -- for noice plugin 
+      cmp.setup.cmdline(":", {
+					mapping = cmp.mapping.preset.cmdline(),
+					sources = {
+						{ name = "cmdline" },
+					},
+				}),
     })
   end,
 }

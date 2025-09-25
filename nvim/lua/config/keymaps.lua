@@ -7,7 +7,7 @@
 -- ===============================
 -- 0. Leader Key
 -- ===============================
-vim.g.mapleader = " "  -- Change leader to space
+vim.g.mapleader = " " -- Change leader to space
 
 -- ===============================
 -- 1. General Normal Mode Mappings
@@ -59,7 +59,8 @@ vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Resize 
 vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize split right" })
 
 -- Refactoring / Search & Replace
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor" })
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { desc = "Replace word under cursor" })
 
 -- Format current buffer
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format buffer" })
@@ -143,18 +144,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- ===============================
     -- 1. Telescope LSP Navigation
     -- ===============================
-    
-    -- Telescope built-in functions
-local builtin = require("telescope.builtin")
 
--- =============================
--- File & Buffer Search
--- =============================
-vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind Existing [B]uffers" })
-vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git-tracked Files" })
-vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Find Files" })
-vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used Files" })
-map("gd", require("telescope.builtin").lsp_definitions, "Goto Definition")
+    -- Telescope built-in functions
+    local builtin = require("telescope.builtin")
+
+    -- =============================
+    -- File & Buffer Search
+    -- =============================
+    vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind Existing [B]uffers" })
+    vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git-tracked Files" })
+    vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Find Files" })
+    vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used Files" })
+    map("gd", require("telescope.builtin").lsp_definitions, "Goto Definition")
     map("gr", require("telescope.builtin").lsp_references, "Goto References")
     map("gi", require("telescope.builtin").lsp_implementations, "Goto Implementation")
     map("go", require("telescope.builtin").lsp_type_definitions, "Type Definition")
@@ -162,37 +163,45 @@ map("gd", require("telescope.builtin").lsp_definitions, "Goto Definition")
     map("<leader>P", require("telescope.builtin").lsp_workspace_symbols, "Workspace Symbols")
     map("<leader>Ps", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Dynamic Workspace Symbols")
 
--- =============================
--- Search in Project / Diagnostics
--- =============================
-vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
+    -- =============================
+    -- Search in Project / Diagnostics
+    -- =============================
+    vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
 
--- Search for a user-input string in the project
-vim.keymap.set("n", "<leader>fg", function()
-    local query = vim.fn.input("Grep > ")
-    builtin.grep_string({ search = query })
-end, { desc = "[F]ind by [G]rep (input)" })
+    -- Search for a user-input string in the project
+    vim.keymap.set("n", "<leader>fg", function()
+      local query = vim.fn.input("Grep > ")
+      builtin.grep_string({ search = query })
+    end, { desc = "[F]ind by [G]rep (input)" })
 
--- Search for the word under the cursor
-vim.keymap.set("n", "<leader>pws", function()
-    local word = vim.fn.expand("<cword>")
-    builtin.grep_string({ search = word })
-end, { desc = "Search for word under cursor (small word)" })
+    -- Search for the word under the cursor
+    vim.keymap.set("n", "<leader>pws", function()
+      local word = vim.fn.expand("<cword>")
+      builtin.grep_string({ search = word })
+    end, { desc = "Search for word under cursor (small word)" })
 
-vim.keymap.set("n", "<leader>pWs", function()
-    local word = vim.fn.expand("<cWORD>")
-    builtin.grep_string({ search = word })
-end, { desc = "Search for WORD under cursor (big word)" })
+    vim.keymap.set("n", "<leader>pWs", function()
+      local word = vim.fn.expand("<cWORD>")
+      builtin.grep_string({ search = word })
+    end, { desc = "Search for WORD under cursor (big word)" })
 
--- Search in a specific directory (example: your dotfiles)
-vim.keymap.set(
-    "n",
-    "<leader>;",
-    function()
-        builtin.find_files({ cwd = "~/dotfiles/nvim/" })
-    end,
-    { desc = "Find Files in Neovim Dotfiles", noremap = true, silent = true }
-)
+    -- Search in a specific directory (example: your dotfiles)
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>;",
+    --   function()
+    --     builtin.find_files({ cwd = "~/dotfiles/nvim/" })
+    --   end,
+    --   { desc = "Find Files in Neovim Dotfiles", noremap = true, silent = true }
+    -- )
+
+    vim.api.nvim_set_keymap(
+      "n",
+      "<leader>;",
+      [[<cmd>lua require('telescope.builtin').find_files({ cwd = vim.fn.expand("~/dotfiles/nvim/") })<CR>]],
+      { noremap = true, silent = true }
+    )
+
 
     -- ===============================
     -- 2. LSP Hover and Signature
@@ -224,30 +233,30 @@ vim.keymap.set(
     -- 5. Which-Key Integration for LSP Actions
     -- ===============================
     -- wk.add({
-      -- -- Code Actions
-      -- ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
-      -- ["<leader>lA"] = { vim.lsp.buf.range_code_action, "Range Code Actions" },
+    -- -- Code Actions
+    -- ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
+    -- ["<leader>lA"] = { vim.lsp.buf.range_code_action, "Range Code Actions" },
 
-      -- Signature / Hover
-      -- ["<leader>ls"] = { vim.lsp.buf.signature_help, "Display Signature Information" },
+    -- Signature / Hover
+    -- ["<leader>ls"] = { vim.lsp.buf.signature_help, "Display Signature Information" },
 
-      -- Rename / Format
-      -- ["<leader>lr"] = { vim.lsp.buf.rename, "Rename all references" },
-      -- ["<leader>lf"] = { vim.lsp.buf.format, "Format" },
+    -- Rename / Format
+    -- ["<leader>lr"] = { vim.lsp.buf.rename, "Rename all references" },
+    -- ["<leader>lf"] = { vim.lsp.buf.format, "Format" },
 
-      -- Implementation / Diagnostics
-      -- ["<leader>li"] = { require("telescope.builtin").lsp_implementations, "Implementation" },
-      -- ["<leader>lw"] = { require("telescope.builtin").diagnostics, "Diagnostics" },
+    -- Implementation / Diagnostics
+    -- ["<leader>li"] = { require("telescope.builtin").lsp_implementations, "Implementation" },
+    -- ["<leader>lw"] = { require("telescope.builtin").diagnostics, "Diagnostics" },
 
-      -- Workspace Management
-      -- ["<leader>Wa"] = { vim.lsp.buf.add_workspace_folder, "Workspace Add Folder" },
-      -- ["<leader>Wr"] = { vim.lsp.buf.remove_workspace_folder, "Workspace Remove Folder" },
-      -- ["<leader>Wl"] = {
-      --   function()
-      --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-      --   end,
-      --   "Workspace List Folders",
-      -- },
+    -- Workspace Management
+    -- ["<leader>Wa"] = { vim.lsp.buf.add_workspace_folder, "Workspace Add Folder" },
+    -- ["<leader>Wr"] = { vim.lsp.buf.remove_workspace_folder, "Workspace Remove Folder" },
+    -- ["<leader>Wl"] = {
+    --   function()
+    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    --   end,
+    --   "Workspace List Folders",
+    -- },
     -- })
   end,
 })
