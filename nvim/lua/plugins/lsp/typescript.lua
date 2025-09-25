@@ -7,24 +7,17 @@ return {
   },
 
   config = function()
-    require("typescript-tools").setup({
+    local ts_tools = require("typescript-tools")
 
-      -- =========================
-      -- Global Settings
-      -- =========================
+    ts_tools.setup({
       settings = {
-        separate_diagnostic_server = true, -- run a separate diagnostics server
-        expose_as_code_action = "all",     -- expose TSServer commands as code actions
-        tsserver_max_memory = "auto",      -- let plugin decide memory usage
-        complete_function_calls = true,    -- auto-complete function args
+        separate_diagnostic_server = true,
+        expose_as_code_action = "all",
+        tsserver_max_memory = "auto",
+        complete_function_calls = true,
         include_completions_with_insert_text = true,
-
-        -- =========================
-        -- Inlay Hints & Preferences
-        -- =========================
         tsserver_file_preferences = {
-          -- Inlay Hints
-          includeInlayParameterNameHints = "all", -- "none" | "literals" | "all"
+          includeInlayParameterNameHints = "all",
           includeInlayParameterNameHintsWhenArgumentMatchesName = true,
           includeInlayFunctionParameterTypeHints = true,
           includeInlayVariableTypeHints = true,
@@ -32,14 +25,41 @@ return {
           includeInlayPropertyDeclarationTypeHints = true,
           includeInlayFunctionLikeReturnTypeHints = true,
           includeInlayEnumMemberValueHints = true,
-
-          -- Completions
           includeCompletionsForModuleExports = true,
-          quotePreference = "auto", -- single | double | auto
-
-          -- autoImportFileExcludePatterns = { "node_modules/*", ".git/*" },
+          quotePreference = "auto",
         },
       },
+    })
+
+    -- =========================
+    -- TypeScript LSP Keymaps
+    -- =========================
+    -- Map keys buffer-locally when LSP attaches
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(event)
+        local buf = event.buf
+        local function map(keys, func, desc)
+          vim.keymap.set("n", keys, func, { buffer = buf, desc = "TS: " .. desc })
+        end
+
+        -- Rename symbol
+        map("<leader>tr", ts_tools.rename, "Rename Symbol")
+
+        -- Organize imports
+        map("<leader>to", ts_tools.organize_imports, "Organize Imports")
+
+        -- Add missing imports
+        map("<leader>ta", ts_tools.add_missing_imports, "Add Missing Imports")
+
+        -- Remove unused code
+        map("<leader>tu", ts_tools.remove_unused, "Remove Unused Code")
+
+        -- Fix all auto-fixable issues
+        map("<leader>tf", ts_tools.fix_all, "Fix All")
+
+        -- Go to source definition (works with type-only imports)
+        map("<leader>td", ts_tools.go_to_source_definition, "Go To Source Definition")
+      end,
     })
   end,
 }

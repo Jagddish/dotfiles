@@ -99,6 +99,7 @@ return {
 
     "clangd",
     "clang-format",
+    "prettier",
     
   },
 

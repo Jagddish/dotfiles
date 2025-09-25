@@ -27,6 +27,12 @@ local colorschemes = {
 		end,
 	},
 	{
+  "vague2k/vague.nvim",
+  priority = 1000, -- make sure to load this before all the other plugins
+  config = function()
+  end
+},
+	{
 		"Mofiqul/dracula.nvim",
 		enabled = true,
 		priority = 1000,

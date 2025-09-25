@@ -6,6 +6,7 @@ return {
 			themes = {
 				"rose-pine-moon",
 				"cyberdream",
+				"vague",
 				"tokyonight-moon",
 				"onedark",
 				"dracula",
