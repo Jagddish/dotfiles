@@ -124,37 +124,103 @@ end, { desc = "Add line below" })
 vim.keymap.set("n", "0", "^", { desc = "Go to first character of line" })
 vim.keymap.set("n", "^", "0", { desc = "Go to start of line" })
 
--- ===============================
--- 5. Which-Key Custom Shortcuts
--- ===============================
+
+
+-- Search in a specific directory (example: your dotfiles)
+    vim.keymap.set(
+      "n",
+      "<leader>;",
+      function()
+        builtin.find_files({ cwd = "~/dotfiles/nvim/" })
+      end,
+      { desc = "Find Files in Neovim Dotfiles", noremap = true, silent = true }
+    )
+
+-- =============================
+-- File & Buffer Search (global)
+-- =============================
+local builtin = require("telescope.builtin")
+
+vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind Existing [B]uffers" })
+vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git-tracked Files" })
+vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Find Files" })
+vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used Files" })
+
+-- =============================
+-- Custome commands
+-- =============================
+
+-- User command to compile & run C++ files
+vim.api.nvim_create_user_command("RunCpp", function()
+	local file = vim.fn.expand("%")   -- get current file
+	if file == "" then
+		print("No file open")
+		return
+	end
+	if not file:match("%.cpp$") then
+		print("Not a C++ file")
+		return
+	end
+
+	-- Build executable name from file name
+	local exe = vim.fn.expand("%:t:r")
+	-- Compile and run
+	local cmd = string.format("g++ -std=c++17 -Wall %s -o %s && ./%s", file, exe, exe)
+	vim.cmd("split | terminal " .. cmd)
+end, {})
+vim.keymap.set("n", "<leader>r", ":RunCpp<CR>", { noremap = true, silent = true })
+
 
 -- ========================================
 -- LSP Keymaps and Hover Configuration
 -- Triggered automatically when an LSP client attaches
 -- ========================================
 
-vim.api.nvim_create_autocmd("LspAttach", {
+
+-- ===============================
+    -- 5. Which-Key Integration for LSP Actions
+    -- ===============================
+    -- wk.add({
+    -- -- Code Actions
+    -- ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
+    -- ["<leader>lA"] = { vim.lsp.buf.range_code_action, "Range Code Actions" },
+
+    -- Signature / Hover
+    -- ["<leader>ls"] = { vim.lsp.buf.signature_help, "Display Signature Information" },
+
+    -- Rename / Format
+    -- ["<leader>lr"] = { vim.lsp.buf.rename, "Rename all references" },
+    -- ["<leader>lf"] = { vim.lsp.buf.format, "Format" },
+
+    -- Implementation / Diagnostics
+    -- ["<leader>li"] = { require("telescope.builtin").lsp_implementations, "Implementation" },
+    -- ["<leader>lw"] = { require("telescope.builtin").diagnostics, "Diagnostics" },
+
+    -- Workspace Management
+    -- ["<leader>Wa"] = { vim.lsp.buf.add_workspace_folder, "Workspace Add Folder" },
+    -- ["<leader>Wr"] = { vim.lsp.buf.remove_workspace_folder, "Workspace Remove Folder" },
+    -- ["<leader>Wl"] = {
+    --   function()
+    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    --   end,
+    --   "Workspace List Folders",
+    -- },
+    -- })
+
+-- ===============================
+    -- Telescope LSP Specific Navigation
+-- ===============================
+
+    vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
   callback = function(event)
     -- Helper function to map keys with descriptions
     local map = function(keys, func, desc)
       vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
     end
-
-    -- ===============================
-    -- 1. Telescope LSP Navigation
-    -- ===============================
-
-    -- Telescope built-in functions
+    
     local builtin = require("telescope.builtin")
 
-    -- =============================
-    -- File & Buffer Search
-    -- =============================
-    vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind Existing [B]uffers" })
-    vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git-tracked Files" })
-    vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Find Files" })
-    vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used Files" })
     map("gd", require("telescope.builtin").lsp_definitions, "Goto Definition")
     map("gr", require("telescope.builtin").lsp_references, "Goto References")
     map("gi", require("telescope.builtin").lsp_implementations, "Goto Implementation")
@@ -185,23 +251,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       builtin.grep_string({ search = word })
     end, { desc = "Search for WORD under cursor (big word)" })
 
-    -- Search in a specific directory (example: your dotfiles)
-    -- vim.keymap.set(
-    --   "n",
-    --   "<leader>;",
-    --   function()
-    --     builtin.find_files({ cwd = "~/dotfiles/nvim/" })
-    --   end,
-    --   { desc = "Find Files in Neovim Dotfiles", noremap = true, silent = true }
-    -- )
-
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>;",
-      [[<cmd>lua require('telescope.builtin').find_files({ cwd = vim.fn.expand("~/dotfiles/nvim/") })<CR>]],
-      { noremap = true, silent = true }
-    )
-
 
     -- ===============================
     -- 2. LSP Hover and Signature
@@ -229,34 +278,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("gD", vim.lsp.buf.declaration, "Goto Declaration")
     map("<leader>v", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Goto Definition in Vertical Split")
 
-    -- ===============================
-    -- 5. Which-Key Integration for LSP Actions
-    -- ===============================
-    -- wk.add({
-    -- -- Code Actions
-    -- ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
-    -- ["<leader>lA"] = { vim.lsp.buf.range_code_action, "Range Code Actions" },
-
-    -- Signature / Hover
-    -- ["<leader>ls"] = { vim.lsp.buf.signature_help, "Display Signature Information" },
-
-    -- Rename / Format
-    -- ["<leader>lr"] = { vim.lsp.buf.rename, "Rename all references" },
-    -- ["<leader>lf"] = { vim.lsp.buf.format, "Format" },
-
-    -- Implementation / Diagnostics
-    -- ["<leader>li"] = { require("telescope.builtin").lsp_implementations, "Implementation" },
-    -- ["<leader>lw"] = { require("telescope.builtin").diagnostics, "Diagnostics" },
-
-    -- Workspace Management
-    -- ["<leader>Wa"] = { vim.lsp.buf.add_workspace_folder, "Workspace Add Folder" },
-    -- ["<leader>Wr"] = { vim.lsp.buf.remove_workspace_folder, "Workspace Remove Folder" },
-    -- ["<leader>Wl"] = {
-    --   function()
-    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    --   end,
-    --   "Workspace List Folders",
-    -- },
-    -- })
   end,
 })
+
+
+
