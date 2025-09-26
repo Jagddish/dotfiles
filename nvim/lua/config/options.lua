@@ -1,47 +1,83 @@
--- leader
-vim.cmd([[ highlight Pmenu guibg=#000 ]])
-vim.g.mapleader = " " -- change leader to a space
--- Set syntastic_auto_jump to 0
-vim.g.syntastic_auto_jump = 0
-vim.g.loaded_netrw = 1 -- disable netrw
-vim.g.loaded_netrwPlugin = 1 --  disable netrw
-vim.g.colorcolumn = 80
-vim.opt.number = true -- set numbered lines
-vim.opt.relativenumber = true -- set relative numbered lines
-vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.showmode = true -- we don't need to see things like -- INSERT -- anymore
-vim.opt.incsearch = true -- make search act like search in modern browsers
-vim.opt.hlsearch = true -- highlight all matches on previous search pattern
-vim.opt.ignorecase = true -- ignore case in search patterns
-vim.opt.smartcase = true
-vim.opt.smartindent = true -- make indenting smarter again
-vim.opt.mouse = "a" -- allow the mouse to be used in neovim
-vim.opt.scrolloff = 8 -- Makes sure there are always eight lines of context
-vim.opt.sidescrolloff = 8 -- Makes sure there are always eight lines of context
-vim.opt.cursorline = false -- highlight the current line
-vim.opt.wrap = false -- display lines as one long line
-vim.opt.expandtab = true -- convert tabs to spaces
-vim.opt.updatetime = 100 -- faster completion (4000ms default)
-vim.opt.timeoutlen = 1000 -- time to wait for a mapped sequence to complete (in milliseconds)
-vim.opt.termguicolors = true -- set term gui colors (most terminals support this)
--- vim.opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-vim.opt.swapfile = false -- creates a swapfile
-vim.opt.splitbelow = true -- force all horizontal splits to go below current window
-vim.opt.splitright = true -- force all vertical splits to go to the right of current window
-vim.opt.backup = false -- creates a backup file
--- vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
--- vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default register
-vim.opt.completeopt = { "menu", "menuone", "noselect" } -- mostly just for cmp
--- vim.opt.fileencoding = "utf-8" -- the encoding written to a file
-vim.opt.undofile = true -- enable persistent undo
-vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
-vim.opt.laststatus = 0 -- Always display the status line
-vim.opt.fillchars = { eob = " " } -- change the character at the end of buffer
+-- ============================================
+-- Leader Key
+-- ============================================
+vim.g.mapleader = " " -- Use space as the leader key
 
+-- ============================================
+-- Highlight & UI Tweaks
+-- ============================================
+vim.cmd([[ highlight Pmenu guibg=#000 ]]) -- Set popup menu background color
+vim.opt.termguicolors = true              -- Enable true color support
+vim.opt.colorcolumn = "80"                -- Show vertical line at column 80
+vim.opt.cursorline = false                -- Highlight current line
+vim.opt.number = true                     -- Show line numbers
+vim.opt.relativenumber = true             -- Show relative numbers
+vim.opt.signcolumn = "yes"                -- Always show sign column
+vim.opt.laststatus = 0                    -- Hide status line
+vim.opt.fillchars = { eob = " " }         -- Hide ~ at end of buffer
+vim.opt.fillchars = vim.opt.fillchars + { vert = " " } -- Remove vertical split lines
+
+-- ============================================
+-- Indentation & Tabs
+-- ============================================
+vim.opt.shiftwidth = 2   -- Spaces per indentation
+vim.opt.tabstop = 2      -- Spaces per tab
+vim.opt.softtabstop = 2  -- Insert spaces when hitting <Tab>
+vim.opt.expandtab = true -- Convert tabs to spaces
+vim.opt.smartindent = true -- Smarter indentation
+
+-- ============================================
+-- Search
+-- ============================================
+vim.opt.incsearch = true -- Incremental search
+vim.opt.hlsearch = true  -- Highlight search results
+vim.opt.ignorecase = true -- Case insensitive search…
+vim.opt.smartcase = true  -- …unless search contains uppercase
+
+-- ============================================
+-- Splits & Windows
+-- ============================================
+vim.opt.splitbelow = true -- Horizontal splits open below
+vim.opt.splitright = true -- Vertical splits open right
+vim.cmd("autocmd VimResized * wincmd =") -- Auto-resize windows equally
+
+-- ============================================
+-- Files, Undo & Backups
+-- ============================================
+vim.opt.swapfile = false  -- Disable swapfile
+vim.opt.backup = false    -- Disable backup
+vim.opt.undofile = true   -- Persistent undo
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.isfname:append("@-@")
-vim.opt.wildignore:append({ "*/node_modules/*" })
-vim.opt.fillchars = vim.opt.fillchars + { vert = " " } -- remove line between splits
-vim.cmd("autocmd VimResized * wincmd =")
+
+-- ============================================
+-- Performance & Timings
+-- ============================================
+vim.opt.updatetime = 100   -- Faster completion (default 4000ms)
+vim.opt.timeoutlen = 1000  -- Timeout for mapped sequences
+
+-- ============================================
+-- Quality of Life
+-- ============================================
+vim.opt.mouse = "a"         -- Enable mouse support
+vim.opt.scrolloff = 8       -- Keep 8 lines above/below cursor
+vim.opt.sidescrolloff = 8   -- Keep 8 columns left/right
+vim.opt.wrap = false        -- Don't wrap long lines
+vim.opt.showmode = true     -- Show mode like -- INSERT --
+vim.opt.completeopt = { "menu", "menuone", "noselect" } -- For nvim-cmp
+
+-- ============================================
+-- Plugins & External Tools
+-- ============================================
+vim.g.syntastic_auto_jump = 0   -- Prevent Syntastic from auto-jumping to first error
+vim.g.loaded_netrw = 1          -- Disable netrw (use oil.nvim, nvim-tree, etc.)
+vim.g.loaded_netrwPlugin = 1    -- Disable netrw plugin
+vim.opt.isfname:append("@-@")   -- Allow '@' in filenames
+vim.opt.wildignore:append({ "*/node_modules/*" }) -- Ignore node_modules in wildmenu
+
+-- ============================================
+-- Optional Settings (Uncomment if needed)
+-- ============================================
+-- vim.opt.background = "dark" -- Force dark theme
+-- vim.opt.clipboard = "unnamedplus" -- Use system clipboard
+-- vim.opt.clipboard:append("unnamedplus") -- Alternative for system clipboard
+-- vim.opt.fileencoding = "utf-8" -- Set default file encoding

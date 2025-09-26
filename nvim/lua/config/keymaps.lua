@@ -126,6 +126,18 @@ vim.keymap.set("n", "^", "0", { desc = "Go to start of line" })
 
 
 
+
+
+-- =============================
+-- File & Buffer Search (global) Telescope
+-- =============================
+local builtin = require("telescope.builtin")
+
+vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind Existing [B]uffers" })
+vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git-tracked Files" })
+vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Find Files" })
+vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used Files" })
+
 -- Search in a specific directory (example: your dotfiles)
     vim.keymap.set(
       "n",
@@ -135,16 +147,6 @@ vim.keymap.set("n", "^", "0", { desc = "Go to start of line" })
       end,
       { desc = "Find Files in Neovim Dotfiles", noremap = true, silent = true }
     )
-
--- =============================
--- File & Buffer Search (global)
--- =============================
-local builtin = require("telescope.builtin")
-
-vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind Existing [B]uffers" })
-vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git-tracked Files" })
-vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Find Files" })
-vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used Files" })
 
 -- =============================
 -- Custome commands
