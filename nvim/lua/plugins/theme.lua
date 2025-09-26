@@ -98,6 +98,46 @@ return {
 	-- 		vim.cmd([[colorscheme onedark]])
 	-- 	end,
 	-- },
+	{
+		"NvChad/nvim-colorizer.lua",
+		enabled = true,
+		config = function()
+			require("colorizer").setup({
+				user_default_options = {
+					tailwind = true,
+				},
+			})
+		end,
+	},
+	{
+		-- ADD themes that are installed to this list.
+	"zaldih/themery.nvim",
+	config = function()
+		-- Minimal config
+		require("themery").setup({
+			themes = {
+				"rose-pine-moon",
+				"cyberdream",
+				"vague",
+				"tokyonight-moon",
+				"onedark",
+				"dracula",
+				"gruvbox",
+				"kanagawa-wave",
+				"habamax",
+				"catppuccin-frappe",
+				"catppuccin-macchiato",
+				"catppuccin-mocha",
+				"onedark_dark",
+				"onedark_vivid",
+				"kanagawa",
+				"rose-pine-main",
+				"rose-pine-dawn",
+			}, -- Your list of installed colorschemes.
+			livePreview = true, -- Apply theme while picking. Default to true.
+		})
+	end,
+},
 
 	{
 		"xiyaowong/transparent.nvim",
@@ -123,6 +163,8 @@ return {
 			require("transparent").clear_prefix("BufferLine")
 			require("transparent").clear_prefix("barbecue")
 			require("transparent").clear_prefix("Mini")
+			require("transparent").clear_prefix("themery")
+
 
 			require("transparent").setup({ -- Optional, you don't have to run setup.
 
@@ -178,16 +220,7 @@ return {
 			-- require("transparent").clear_prefix("lualine")
 		end,
 	},
+	
 
-	{
-		"NvChad/nvim-colorizer.lua",
-		enabled = true,
-		config = function()
-			require("colorizer").setup({
-				user_default_options = {
-					tailwind = true,
-				},
-			})
-		end,
-	},
+	
 }
