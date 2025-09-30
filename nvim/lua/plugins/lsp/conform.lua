@@ -1,0 +1,52 @@
+return {
+  -- "stevearc/conform.nvim",
+  -- event = { "BufReadPre", "BufNewFile" },
+  -- config = function()
+  --   local conform = require("conform")
+  --
+  --   conform.setup({
+  --     formatters_by_ft = {
+  --       lua = { "stylua" },
+  --       svelte = { { "prettierd", "prettier", stop_after_first = true } },
+  --       astro = { { "prettierd", "prettier", stop_after_first = true } },
+  --       javascript = { { "prettier", "prettierd", stop_after_first = true } },
+  --       typescript = { { "prettier", "prettierd", stop_after_first = true } },
+  --       javascriptreact = { { "prettierd", "prettier", stop_after_first = true } },
+  --       typescriptreact = { { "prettierd", "prettier", stop_after_first = true } },
+  --       json = { { "prettierd", "prettier", stop_after_first = true } },
+  --       graphql = { { "prettierd", "prettier", stop_after_first = true } },
+  --       java = { "google-java-format" },
+  --       kotlin = { "ktlint" },
+  --       ruby = { "standardrb" },
+  --       cpp = { "clang-format" },
+  --       markdown = { { "prettierd", "prettier", stop_after_first = true } },
+  --       erb = { "htmlbeautifier" },
+  --       html = { "prettier", },
+  --       bash = { "beautysh" },
+  --       proto = { "buf" },
+  --       rust = { "rustfmt" },
+  --       yaml = { "yamlfix" },
+  --       toml = { "taplo" },
+  --       css = { { "prettier", "prettierd", stop_after_first = true } },
+  --       scss = { { "prettierd", "prettier", stop_after_first = true } },
+  --       sh = { "shellcheck" },
+  --       go = { "gofmt" },
+  --       xml = { "xmllint" },
+  --     },
+  --     format_on_save = {
+  --       lsp_fallback = true,
+  --       quiet = true,
+  --       async = false,
+  --       timeout_ms = 1000,
+  --     },
+  --   })
+  --
+  --   vim.keymap.set({ "n", "v" }, "<leader>l", function()
+  --     conform.format({
+  --       lsp_fallback = true,
+  --       async = false,
+  --       timeout_ms = 1000,
+  --     })
+  --   end, { desc = "Format file or range (in visual mode)" })
+  -- end,
+}

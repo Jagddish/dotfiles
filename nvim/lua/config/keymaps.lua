@@ -30,6 +30,9 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { noremap = true, silent = t
 
 
 -- Line movement
+-- in your Neovim config (init.lua)
+-- vim.keymap.set("n", "j", "jzz", { noremap = true, desc = "center the lines" })
+-- vim.keymap.set("n", "k", "kzz", { noremap = true })
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines without moving cursor" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
@@ -60,10 +63,10 @@ vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize
 
 -- Refactoring / Search & Replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-  { desc = "Replace word under cursor" })
+	{ desc = "Replace word under cursor" })
 
 -- Format current buffer
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format buffer" })
+vim.keymap.set("n", "<leader>ll", vim.lsp.buf.format, { desc = "Format buffer" })
 
 -- Lazygit
 vim.keymap.set("n", "<C-e>", "<cmd>LazyGit<CR>", { noremap = true, silent = true, desc = "Open LazyGit" })
@@ -94,31 +97,38 @@ vim.keymap.set("v", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
 -- 4. Custom Commands
 -- ===============================
 vim.api.nvim_create_user_command("Js", function()
-  local filename = vim.fn.expand("%")
-  if filename == "" then return print("No file open") end
-  vim.cmd("!node " .. vim.fn.shellescape(filename))
+	local filename = vim.fn.expand("%")
+	if filename == "" then return print("No file open") end
+	vim.cmd("!node " .. vim.fn.shellescape(filename))
 end, {})
 
 vim.api.nvim_create_user_command("Ts", function()
-  local filename = vim.fn.expand("%")
-  if filename == "" then return print("No file open") end
-  if not filename:match("%.ts$") then return print("Not a TypeScript file") end
-  vim.cmd("!ts-node " .. vim.fn.shellescape(filename))
+	local filename = vim.fn.expand("%")
+	if filename == "" then return print("No file open") end
+	if not filename:match("%.ts$") then return print("Not a TypeScript file") end
+	vim.cmd("!ts-node " .. vim.fn.shellescape(filename))
 end, {})
 
 -- Add line above
 vim.keymap.set("n", "[<leader>", function()
-  local line = vim.api.nvim_win_get_cursor(0)[1] - 1
-  vim.api.nvim_buf_set_lines(0, line, line, true, { "" })
-  vim.api.nvim_input("<up>")
+	local line = vim.api.nvim_win_get_cursor(0)[1] - 1
+	vim.api.nvim_buf_set_lines(0, line, line, true, { "" })
+	vim.api.nvim_input("<up>")
 end, { desc = "Add line above" })
 
 -- Add line below
 vim.keymap.set("n", "]<leader>", function()
-  local line = vim.api.nvim_win_get_cursor(0)[1]
-  vim.api.nvim_buf_set_lines(0, line, line, true, { "" })
-  vim.api.nvim_input("<down>")
+	local line = vim.api.nvim_win_get_cursor(0)[1]
+	vim.api.nvim_buf_set_lines(0, line, line, true, { "" })
+	vim.api.nvim_input("<down>")
 end, { desc = "Add line below" })
+
+-- Always paste on a new line (below)
+vim.keymap.set("n", "]p", "o<Esc>p", { desc = "Paste below on new line" })
+
+-- Always paste on a new line (above)
+vim.keymap.set("n", "[p", "O<Esc>p", { desc = "Paste above on new line" })
+
 
 -- Swap 0 and ^
 vim.keymap.set("n", "0", "^", { desc = "Go to first character of line" })
@@ -133,20 +143,44 @@ vim.keymap.set("n", "^", "0", { desc = "Go to start of line" })
 -- =============================
 local builtin = require("telescope.builtin")
 
+vim.keymap.set("n", "<leader>wk", builtin.keymaps, { desc = "whick key" })
 vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind Existing [B]uffers" })
 vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git-tracked Files" })
 vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Find Files" })
 vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used Files" })
 
 -- Search in a specific directory (example: your dotfiles)
-    vim.keymap.set(
-      "n",
-      "<leader>;",
-      function()
-        builtin.find_files({ cwd = "~/dotfiles/nvim/" })
-      end,
-      { desc = "Find Files in Neovim Dotfiles", noremap = true, silent = true }
-    )
+vim.keymap.set(
+	"n",
+	"<leader>;",
+	function()
+		builtin.find_files({ cwd = "~/dotfiles/nvim/" })
+	end,
+	{ desc = "Find Files in Neovim Dotfiles", noremap = true, silent = true }
+)
+
+
+-- =============================
+-- Search in Project / Diagnostics
+-- =============================
+vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
+
+-- Search for a user-input string in the project
+vim.keymap.set("n", "<leader>fg", function()
+	local query = vim.fn.input("Grep > ")
+	builtin.grep_string({ search = query })
+end, { desc = "[F]ind by [G]rep (input)" })
+
+-- Search for the word under the cursor
+vim.keymap.set("n", "<leader>pws", function()
+	local word = vim.fn.expand("<cword>")
+	builtin.grep_string({ search = word })
+end, { desc = "Search for word under cursor (small word)" })
+
+vim.keymap.set("n", "<leader>pWs", function()
+	local word = vim.fn.expand("<cWORD>")
+	builtin.grep_string({ search = word })
+end, { desc = "Search for WORD under cursor (big word)" })
 
 -- =============================
 -- Custome commands
@@ -154,7 +188,7 @@ vim.keymap.set("n", "<C-g>", builtin.oldfiles, { desc = "Open Recently Used File
 
 -- User command to compile & run C++ files
 vim.api.nvim_create_user_command("RunCpp", function()
-	local file = vim.fn.expand("%")   -- get current file
+	local file = vim.fn.expand("%") -- get current file
 	if file == "" then
 		print("No file open")
 		return
@@ -180,108 +214,83 @@ vim.keymap.set("n", "<leader>r", ":RunCpp<CR>", { noremap = true, silent = true 
 
 
 -- ===============================
-    -- 5. Which-Key Integration for LSP Actions
-    -- ===============================
-    -- wk.add({
-    -- -- Code Actions
-    -- ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
-    -- ["<leader>lA"] = { vim.lsp.buf.range_code_action, "Range Code Actions" },
+-- 5. Which-Key Integration for LSP Actions
+-- ===============================
+-- wk.add({
+-- -- Code Actions
+-- ["<leader>la"] = { vim.lsp.buf.code_action, "Code Action" },
+-- ["<leader>lA"] = { vim.lsp.buf.range_code_action, "Range Code Actions" },
 
-    -- Signature / Hover
-    -- ["<leader>ls"] = { vim.lsp.buf.signature_help, "Display Signature Information" },
+-- Signature / Hover
+-- ["<leader>ls"] = { vim.lsp.buf.signature_help, "Display Signature Information" },
 
-    -- Rename / Format
-    -- ["<leader>lr"] = { vim.lsp.buf.rename, "Rename all references" },
-    -- ["<leader>lf"] = { vim.lsp.buf.format, "Format" },
+-- Rename / Format
+-- ["<leader>lr"] = { vim.lsp.buf.rename, "Rename all references" },
+-- ["<leader>lf"] = { vim.lsp.buf.format, "Format" },
 
-    -- Implementation / Diagnostics
-    -- ["<leader>li"] = { require("telescope.builtin").lsp_implementations, "Implementation" },
-    -- ["<leader>lw"] = { require("telescope.builtin").diagnostics, "Diagnostics" },
+-- Implementation / Diagnostics
+-- ["<leader>li"] = { require("telescope.builtin").lsp_implementations, "Implementation" },
+-- ["<leader>lw"] = { require("telescope.builtin").diagnostics, "Diagnostics" },
 
-    -- Workspace Management
-    -- ["<leader>Wa"] = { vim.lsp.buf.add_workspace_folder, "Workspace Add Folder" },
-    -- ["<leader>Wr"] = { vim.lsp.buf.remove_workspace_folder, "Workspace Remove Folder" },
-    -- ["<leader>Wl"] = {
-    --   function()
-    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    --   end,
-    --   "Workspace List Folders",
-    -- },
-    -- })
+-- Workspace Management
+-- ["<leader>Wa"] = { vim.lsp.buf.add_workspace_folder, "Workspace Add Folder" },
+-- ["<leader>Wr"] = { vim.lsp.buf.remove_workspace_folder, "Workspace Remove Folder" },
+-- ["<leader>Wl"] = {
+--   function()
+--     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+--   end,
+--   "Workspace List Folders",
+-- },
+-- })
 
 -- ===============================
-    -- Telescope LSP Specific Navigation
+-- Telescope LSP Specific Navigation
 -- ===============================
 
-    vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-  callback = function(event)
-    -- Helper function to map keys with descriptions
-    local map = function(keys, func, desc)
-      vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-    end
-    
-    local builtin = require("telescope.builtin")
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+	callback = function(event)
+		-- Helper function to map keys with descriptions
+		local map = function(keys, func, desc)
+			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+		end
 
-    map("gd", require("telescope.builtin").lsp_definitions, "Goto Definition")
-    map("gr", require("telescope.builtin").lsp_references, "Goto References")
-    map("gi", require("telescope.builtin").lsp_implementations, "Goto Implementation")
-    map("go", require("telescope.builtin").lsp_type_definitions, "Type Definition")
-    map("<leader>p", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
-    map("<leader>P", require("telescope.builtin").lsp_workspace_symbols, "Workspace Symbols")
-    map("<leader>Ps", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Dynamic Workspace Symbols")
+		-- local builtin = require("telescope.builtin")
 
-    -- =============================
-    -- Search in Project / Diagnostics
-    -- =============================
-    vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
-
-    -- Search for a user-input string in the project
-    vim.keymap.set("n", "<leader>fg", function()
-      local query = vim.fn.input("Grep > ")
-      builtin.grep_string({ search = query })
-    end, { desc = "[F]ind by [G]rep (input)" })
-
-    -- Search for the word under the cursor
-    vim.keymap.set("n", "<leader>pws", function()
-      local word = vim.fn.expand("<cword>")
-      builtin.grep_string({ search = word })
-    end, { desc = "Search for word under cursor (small word)" })
-
-    vim.keymap.set("n", "<leader>pWs", function()
-      local word = vim.fn.expand("<cWORD>")
-      builtin.grep_string({ search = word })
-    end, { desc = "Search for WORD under cursor (big word)" })
+		map("gd", require("telescope.builtin").lsp_definitions, "Goto Definition")
+		map("gr", require("telescope.builtin").lsp_references, "Goto References")
+		map("gi", require("telescope.builtin").lsp_implementations, "Goto Implementation")
+		map("go", require("telescope.builtin").lsp_type_definitions, "Type Definition")
+		map("<leader>p", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
+		map("<leader>P", require("telescope.builtin").lsp_workspace_symbols, "Workspace Symbols")
+		map("<leader>Ps", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Dynamic Workspace Symbols")
 
 
-    -- ===============================
-    -- 2. LSP Hover and Signature
-    -- ===============================
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-      border = "single", -- border style
-      max_width = 80,
-      max_height = 30,
-      width = 60,
-      height = 8,
-    })
-    map("K", vim.lsp.buf.hover, "Hover Documentation")
-    map("gs", vim.lsp.buf.signature_help, "Signature Documentation")
 
-    -- ===============================
-    -- 3. Diagnostics
-    -- ===============================
-    map("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
-    map("[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
-    map("]d", vim.diagnostic.goto_next, "Next Diagnostic")
+		-- ===============================
+		-- 2. LSP Hover and Signature
+		-- ===============================
+		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+			border = "single", -- border style
+			max_width = 80,
+			max_height = 30,
+			width = 60,
+			height = 8,
+		})
+		map("K", vim.lsp.buf.hover, "Hover Documentation")
+		map("gs", vim.lsp.buf.signature_help, "Signature Documentation")
 
-    -- ===============================
-    -- 4. Declaration / Vertical Split
-    -- ===============================
-    map("gD", vim.lsp.buf.declaration, "Goto Declaration")
-    map("<leader>v", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Goto Definition in Vertical Split")
+		-- ===============================
+		-- 3. Diagnostics
+		-- ===============================
+		map("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
+		map("[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+		map("]d", vim.diagnostic.goto_next, "Next Diagnostic")
 
-  end,
+		-- ===============================
+		-- 4. Declaration / Vertical Split
+		-- ===============================
+		map("gD", vim.lsp.buf.declaration, "Goto Declaration")
+		map("<leader>v", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Goto Definition in Vertical Split")
+	end,
 })
-
-
-

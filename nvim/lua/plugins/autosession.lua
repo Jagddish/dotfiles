@@ -1,15 +1,16 @@
 return {
 	"rmagatti/auto-session",
+	enabled = false,
 	lazy = false,
 	dependencies = {
 		"nvim-telescope/telescope.nvim",
 	},
 	keys = {
 		-- Will use Telescope if installed or a vim.ui.select picker otherwise
-		{ "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save session" },
+		{ "<leader>ws", "<cmd>SessionSave<CR>",    desc = "Save session" },
 		{ "<leader>wr", "<cmd>SessionRestore<CR>", desc = "Restore session" },
 
-		{ "<C-s>", "<cmd>SessionSearch<CR>", desc = "Session search" },
+		{ "<C-s>",      "<cmd>SessionSearch<CR>",  desc = "Session search" },
 	},
 	config = function()
 		require("auto-session").setup({

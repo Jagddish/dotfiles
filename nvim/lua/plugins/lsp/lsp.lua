@@ -1,10 +1,17 @@
-
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
     -- Core LSP + Mason
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+    {
+      "mason-org/mason-lspconfig.nvim",
+      opts = {},
+      dependencies = {
+        { "mason-org/mason.nvim", opts = {} },
+        "neovim/nvim-lspconfig",
+      },
+    },
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     -- LSP completion
     "hrsh7th/cmp-nvim-lsp", -- only used for capabilities
@@ -51,8 +58,8 @@ return {
         timeout_ms = 1000,
       },
     })
-    
-    
+
+
 
     -- Optional: Extend snippets to html/typescript from javascript
     -- luasnip.filetype_extend("html", { "javascript" })
@@ -62,17 +69,33 @@ return {
     -- Key icons for LSP kinds
     local kind_icons = {
       Text = "",
-       Method = "󰆧", 
-       Function = "󰊕", Constructor = "",
-      Field = "󰇽", Variable = "󰂡", Class = "󰠱", Interface = "",
-      Module = "", Property = "󰜢", Unit = "", Value = "󰎠",
-      Enum = "", Keyword = "󰌋", Snippet = "", Color = "󰏘",
-      File = "󰈙", Reference = "", Folder = "󰉋", EnumMember = "",
-      Constant = "󰏿", Struct = "", Event = "", Operator = "󰆕",
+      Method = "󰆧",
+      Function = "󰊕",
+      Constructor = "",
+      Field = "󰇽",
+      Variable = "󰂡",
+      Class = "󰠱",
+      Interface = "",
+      Module = "",
+      Property = "󰜢",
+      Unit = "",
+      Value = "󰎠",
+      Enum = "",
+      Keyword = "󰌋",
+      Snippet = "",
+      Color = "󰏘",
+      File = "󰈙",
+      Reference = "",
+      Folder = "󰉋",
+      EnumMember = "",
+      Constant = "󰏿",
+      Struct = "",
+      Event = "",
+      Operator = "󰆕",
       TypeParameter = "󰅲",
     }
 
-   
+
     -- ===============================
     -- 2. Capabilities (from cmp)
     -- ===============================
@@ -93,61 +116,38 @@ return {
     })
     require('mason-tool-installer').setup {
 
-  -- a list of all tools you want to ensure are installed upon
-  -- start
-  ensure_installed = {
+      -- a list of all tools you want to ensure are installed upon
+      -- start
+      ensure_installed = {
 
-    "clangd",
-    "clang-format",
-    "prettier",
-    
-  },
+        "clangd",
+        "clang-format",
+        "prettier",
 
-  -- if set to true this will check each tool for updates. If updates
-  -- are available the tool will be updated. This setting does not
-  -- affect :MasonToolsUpdate or :MasonToolsInstall.
-  -- Default: false
-  auto_update = false,
-  run_on_start = true,
-  integrations = {
-    ['mason-lspconfig'] = true,
-    ['mason-null-ls'] = true,
-    ['mason-nvim-dap'] = true,
-  },
-}
+      },
+
+      -- if set to true this will check each tool for updates. If updates
+      -- are available the tool will be updated. This setting does not
+      -- affect :MasonToolsUpdate or :MasonToolsInstall.
+      -- Default: false
+      auto_update = false,
+      run_on_start = true,
+      integrations = {
+        ['mason-lspconfig'] = true,
+        ['mason-null-ls'] = true,
+        ['mason-nvim-dap'] = true,
+      },
+    }
 
     local mason_lspconfig = require("mason-lspconfig")
     mason_lspconfig.setup({
       ensure_installed = {
         "lua_ls", "tailwindcss", "clangd", "eslint", "html",
         "ts_ls", "cssls", "emmet_language_server", "pyright",
-        
-       
+
       },
       handlers = {
-        -- Default handler for all other servers
-        function(server_name)
-          vim.lsp.config(server_name, { capabilities = capabilities })
-          vim.lsp.enable(server_name)
-        end,
 
-        -- Special configuration for lua_ls
-        ["lua_ls"] = function()
-          vim.lsp.config("lua_ls", {
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                format = {
-                  enable = true,
-                  defaultConfig = { indent_style = "space", indent_size = "2" },
-                },
-              },
-            },
-          })
-          vim.lsp.enable("lua_ls")
-        end,
-
-        -- Special configuration for tailwindcss
         ["tailwindcss"] = function()
           vim.lsp.config("tailwindcss", {
             capabilities = capabilities,
@@ -156,10 +156,47 @@ return {
               "typescript", "typescriptreact", "vue", "svelte", "heex",
             },
           })
-          vim.lsp.enable("tailwindcss")
+        end,
+
+        -- Special setup for lua_ls
+        ["lua_ls"] = function()
+          vim.lsp.config("lua_ls", {
+            capabilities = capabilities,
+            settings = {
+              Lua = {
+                runtime = {
+                  version = "LuaJIT", -- Neovim uses LuaJIT
+                },
+                diagnostics = {
+                  globals = { "vim" }, -- 👈 this fixes "undefined global vim"
+                },
+                workspace = {
+                  library = vim.api.nvim_get_runtime_file("", true),
+                  checkThirdParty = false,
+                },
+                format = {
+                  enable = true,
+                  defaultConfig = {
+                    indent_style = "space",
+                    indent_size = "2",
+                  },
+                },
+              },
+            },
+          })
+        end,
+
+        -- vim.lsp.enable("lua_ls"),
+
+        -- Default handler for all other servers
+        function(server_name)
+          vim.lsp.config(server_name, { capabilities = capabilities })
+          vim.lsp.enable(server_name)
         end,
       },
     })
+
+
 
     -- ===============================
     -- 4. Diagnostics
@@ -183,11 +220,5 @@ return {
         },
       },
     })
-
-    -- ===============================
-    -- 5. Individual Server Example: TypeScript/JavaScript
-    -- ===============================
-    vim.lsp.config("ts_ls", { capabilities = capabilities })
-    vim.lsp.enable("ts_ls")
   end,
 }
