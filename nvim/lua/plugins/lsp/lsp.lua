@@ -148,6 +148,14 @@ return {
       },
       handlers = {
 
+        ["clangd"] = function()
+          vim.lsp.config("clangd", {
+            capabilities = capabilities,
+            filetypes = { "c", "cpp", "objc", "objcpp" },
+            cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" },
+          })
+        end,
+
         ["tailwindcss"] = function()
           vim.lsp.config("tailwindcss", {
             capabilities = capabilities,
