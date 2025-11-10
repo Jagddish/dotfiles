@@ -156,7 +156,7 @@ alias jv='v ~/codes/web/js/practice'
 
 
 alias key='python3 ~/codes/keyboard-layout-status/src/kbstatus/keyboard.py'
-source ~/.zsh_git
+# source ~/.zsh_git
 
 # bun completions
 [ -s "/Users/jagddish/.bun/_bun" ] && source "/Users/jagddish/.bun/_bun"
@@ -226,7 +226,7 @@ _fzf_compgen_dir() {
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-source ~/.fzf-git.sh/fzf-git.sh
+source ~/dotfiles/fzf-git.sh
 # export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}' --bind 'enter:execute(nvim {})'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
@@ -271,4 +271,3 @@ bindkey -s ^f "~/dotfiles/./tmux-sessionizer\n"
 
 
 eval "$(starship init zsh)"
-. "/Users/jagddish/.deno/env"
