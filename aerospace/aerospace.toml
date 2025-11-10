@@ -16,10 +16,8 @@ after-login-command = []
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = []
-
 # Start AeroSpace at login
-start-at-login = true
-
+start-at-login = false
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = false
@@ -28,7 +26,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 0
+accordion-padding = 50
 
 
 # Possible values: horizontal|vertical|auto
@@ -65,7 +63,7 @@ outer.right =      0
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 # 'main' binding mode must be always presented
 [mode.main.binding]
-
+alt-shift-f = 'layout floating tiling'
 # All possible keys:
 # - Letters.        a, b, c, ..., z
 # - Numbers.        0, 1, 2, ..., 9
@@ -88,14 +86,14 @@ outer.right =      0
 ctrl-1 ='exec-and-forget open /System/Library/CoreServices/Finder.app'
 # ctrl-3 = 'exec-and-forget open /Applications/Alacritty.app'
 ctrl-3 = 'exec-and-forget open /Applications/WezTerm.app/'
-# ctrl-4 = 'exec-and-forget open /Applications/WhatsApp.app/'
 # ctrl-2 = 'exec-and-forget open /Applications/Google\ Chrome.app'
-ctrl-2 = 'exec-and-forget open /Applications/Arc.app/'
+ctrl-2 = 'exec-and-forget open /Applications/Brave\ Browser.app'
 cmd-h = [] # Disable "hide application"
 cmd-alt-h = [] # Disable "hide others"
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
+
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
 alt-h = 'focus left'
@@ -233,7 +231,7 @@ if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
-if.app-id = 'company.thebrowser.Browser'
+if.app-id = 'com.brave.Browser'
 run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
