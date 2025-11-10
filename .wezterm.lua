@@ -38,7 +38,7 @@ config = {
 	window_close_confirmation = "NeverPrompt",
 	-- default_cursor_style = "SteadyBar",
 	-- default_cursor_style = "SteadyUnderline",
-	window_background_opacity = 1,
+	window_background_opacity = 0.9,
 	macos_window_background_blur = 0,
 
 

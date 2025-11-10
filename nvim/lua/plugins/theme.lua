@@ -1,49 +1,12 @@
 return {
-	{
-		"scottmckendry/cyberdream.nvim",
-		priority = 1000,
-	},
-	{
-		"rebelot/kanagawa.nvim",
-		enabled = true,
-		config = function()
-			-- vim.cmd("colorscheme kanagawa-wave")
-			-- vim.cmd("colorscheme kanagawa-dragon")
-			-- vim.cmd("colorscheme kanagawa-lotus")
-		end,
-	},
-	{
-		"ellisonleao/gruvbox.nvim",
-		priority = 1000,
-		config = function()
-			-- vim.cmd([[colorscheme gruvbox]])
-		end,
-	},
-	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-	{
-		"Mofiqul/dracula.nvim",
-		enabled = true,
-		priority = 1000,
-		config = function()
-			-- vim.cmd([[colorscheme dracula]])
-		end,
-	},
-	{
-		"olimorris/onedarkpro.nvim",
-		enabled = true,
-		priority = 1000,
-		config = function()
-			-- vim.cmd([[colorscheme onedark]])
-		end,
-	},
-	{
-		"catppuccin/nvim",
-		enabled = true,
-		priority = 1000,
-		config = function()
-			-- vim.cmd([[colorscheme onedark]])
-		end,
-	},
+	-- all color scheme plugins first
+	{ "scottmckendry/cyberdream.nvim", priority = 1000 },
+	{ "rebelot/kanagawa.nvim",         priority = 1000 },
+	{ "ellisonleao/gruvbox.nvim",      priority = 1000 },
+	{ "catppuccin/nvim",               name = "catppuccin", priority = 1000 },
+	{ "Mofiqul/dracula.nvim",          priority = 1000 },
+	{ "olimorris/onedarkpro.nvim",     priority = 1000 },
+
 	{
 		"folke/tokyonight.nvim",
 		-- priority = 1000,
@@ -99,19 +62,9 @@ return {
 	-- 	end,
 	-- },
 	{
-		"NvChad/nvim-colorizer.lua",
-		enabled = true,
-		config = function()
-			require("colorizer").setup({
-				user_default_options = {
-					tailwind = true,
-				},
-			})
-		end,
-	},
-	{
 		-- ADD themes that are installed to this list.
 		"zaldih/themery.nvim",
+		enabled = true,
 		config = function()
 			-- Minimal config
 			require("themery").setup({
@@ -138,10 +91,21 @@ return {
 			})
 		end,
 	},
+	{
+		"NvChad/nvim-colorizer.lua",
+		enabled = true,
+		config = function()
+			require("colorizer").setup({
+				user_default_options = {
+					tailwind = true,
+				},
+			})
+		end,
+	},
 
 	{
 		"xiyaowong/transparent.nvim",
-		enable = true,
+		enabled = true,
 		config = function()
 			require("transparent").clear_prefix("BufferLine")
 			require("transparent").clear_prefix("Normal")
