@@ -1,3 +1,100 @@
+--[[
+=====================================================
+🌳 Treesitter Keymaps Guide
+=====================================================
+
+⚡ Incremental Selection
+------------------------
+<C-Space>   → Start or expand selection
+<BS>        → Shrink selection
+
+Example:
+1. Place cursor inside a parameter
+2. <C-Space> → selects parameter
+3. <C-Space> → expands to function
+4. <C-Space> → expands to block
+
+
+✂️ Textobjects (Selections)
+----------------------------
+Use inside visual (v) or operator-pending (d, y, c) mode.
+
+Category        Inner | Outer | Description
+-------------------------------------------------
+Assignment       i=    | a=    | Inner / outer assignment
+Assign parts     l=,r= |       | LHS / RHS of assignment
+Property (JS/TS) i:    | a:    | Inner / outer property
+Property parts   l:,r: |       | LHS / RHS of property
+Parameter        ia    | aa    | Inner / outer parameter
+Func call        if    | af    | Inner / outer function call
+Func def         im    | am    | Inner / outer function def
+Class            ic    | ac    | Inner / outer class
+Loop             il    | al    | Inner / outer loop
+
+Examples:
+vaf → select around function call
+yic → yank inside class
+da= → delete an assignment
+cil → change inside loop
+
+
+🔁 Swapping
+------------
+<leader>na → Swap with next parameter
+<leader>pa → Swap with previous parameter
+<leader>nm → Swap with next function
+<leader>pm → Swap with previous function
+<leader>n: → Swap with next property
+<leader>p: → Swap with previous property
+
+Example:
+function test(a, b, c) {}
+Cursor on b → <leader>na swaps b and c
+
+
+🧭 Movement (Navigation)
+-------------------------
+Jump to next start:
+  [f → Function call
+  [m → Function definition
+  [c → Class
+  [i → Conditional
+  [l → Loop
+  [s → Scope
+  [z → Fold
+
+Jump to next end:
+  [F → Function call
+  [M → Function definition
+  [C → Class
+  [I → Conditional
+  [L → Loop
+
+Jump to previous start:
+  ]f → Function call
+  ]m → Function definition
+  ]c → Class
+  ]i → Conditional
+  ]l → Loop
+
+Jump to previous end:
+  ]F → Function call
+  ]M → Function definition
+  ]C → Class
+  ]I → Conditional
+  ]L → Loop
+
+
+🧩 Tips
+--------
+- Works only if Treesitter parser is installed for the language.
+- Check highlights:
+    :TSHighlightCapturesUnderCursor
+- Inspect syntax tree:
+    :TSPlaygroundToggle
+=====================================================
+]]
+
 return {
   "nvim-treesitter/nvim-treesitter",
   event = { "BufReadPre", "BufNewFile" },
